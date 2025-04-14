@@ -1,0 +1,15 @@
+Problem:
+X (client) commissions Y (supplier) to create a website for his company. After Y has completed the work, X is dissatisfied with the result and refuses to pay the full amount as he feels the design is not as agreed. However, Y claims that the agreed requirements in the description were met
+
+Mediation objective:
+The settlement proposal could include a partial amount of the agreed payment or the improvement of certain parts of the website without the full amount being reclaimed.
+
+Important documents:
+Contract or terms of reference, email correspondence about requirements and changes, screenshots of the website before and after the changes.
+
+Setting:
+Tit-for-Tat discussion between two agenty (X & Y). Whereas each agent has to demand something from the other. Maximum number of rounds is 5 (each agents has 5 opportunities to speak), after this a conflusion will be drawn.
+Each Agent has to request the other to respond.
+
+Task:
+Please provide an opening statement to Y. This can be formulated either in defecting or cooperating manner, either as a question or as a statement. Tell Y why you are unhappy and what you're demand is and demand an answer. Make something up.
