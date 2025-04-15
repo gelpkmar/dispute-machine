@@ -117,11 +117,11 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
     # qa = run_localGPT.retrieval_qa_pipline(device_type, use_history, promptTemplate_type=model_type)
     agent_X = Agent(
         name="X", 
-        embeddings_dir="../data/embeddings_X",
+        embeddings_dir="./data/embeddings_X",
         device_type="cpu",
         use_history=False, 
         model_type=model_type, 
-        persist_dir="../data/persist_X", 
+        persist_dir="./data/persist_X", 
         promptTemplate_type=model_type, 
         opening_statement="""
             You X (client) commissioned Y (supplier) to create a website for your company. 
@@ -137,11 +137,11 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
     )
     agent_Y = Agent(
         name="Y", 
-        embeddings_dir="../data/embeddings_Y",
+        embeddings_dir="./data/embeddings_Y",
         device_type="cpu",
         use_history=False, 
         model_type=model_type, 
-        persist_dir="../data/persist_Y", 
+        persist_dir="./data/persist_Y", 
         promptTemplate_type=model_type, 
         opening_statement="""
             You Y (supplier) created a website as commissioned by X (client) for his company. 

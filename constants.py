@@ -109,14 +109,14 @@ EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Ac
 # Use mistral to run on hpu
 # MODEL_ID = "mistralai/Mistral-7B-Instruct-v0.2"
 
-# # LLAMA 3 # use for Apple Silicon
-# MODEL_ID = "meta-llama/Meta-Llama-3-8B-Instruct"
-# MODEL_BASENAME = None
-
-####
-#
-MODEL_ID = "distilbert/distilgpt2"
+# LLAMA 3 # use for Apple Silicon
+MODEL_ID = "meta-llama/Meta-Llama-3-8B-Instruct"
 MODEL_BASENAME = None
+
+# #### TEST MARLON
+# #
+# MODEL_ID = "openai-community/gpt2"
+# MODEL_BASENAME = None
 
 # LLAMA 3 # use for NVIDIA GPUs
 # MODEL_ID = "unsloth/llama-3-8b-bnb-4bit"
