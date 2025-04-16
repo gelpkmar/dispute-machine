@@ -34,7 +34,8 @@ MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE  # int(CONTEXT_WINDOW_SIZE/4)
 
 #### If you get a "not enough space in the buffer" error, you should reduce the values below, start with half of the original values and keep halving the value until the error stops appearing
 
-N_GPU_LAYERS = 100  # Llama-2-70B has 83 layers
+# N_GPU_LAYERS = 100  # Llama-2-70B has 83 layers
+N_GPU_LAYERS = 35  # How many LLM layers to offload to GPU
 N_BATCH = 512
 
 ### From experimenting with the Llama-2-7B-Chat-GGML model on 8GB VRAM, these values work:
@@ -58,8 +59,7 @@ DOCUMENT_MAP = {
 }
 
 # Default Instructor Model
-EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Accuracy with lower VRAM usage)
-
+# EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Accuracy with lower VRAM usage)
 ####
 #### OTHER EMBEDDING MODEL OPTIONS
 ####
@@ -68,14 +68,14 @@ EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Ac
 # EMBEDDING_MODEL_NAME = "intfloat/e5-large-v2" # Uses 1.5 GB of VRAM (A little less accurate than instructor-large)
 # EMBEDDING_MODEL_NAME = "intfloat/e5-base-v2" # Uses 0.5 GB of VRAM (A good model for lower VRAM GPUs)
 # EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2" # Uses 0.2 GB of VRAM (Less accurate but fastest - only requires 150mb of vram)
-
-####
+# EMBEDDING_MODEL_NAME = "BAAI/bge-large-en-v1.5" # Uses 1.5 GB of VRAM (A good model for lower VRAM GPUs)
+# EMBEDDING_MODEL_NAME = "intfloat/e5-mistral-7b-instruct" ####
+# EMBEDDING_MODEL_NAME ="thenlper/gte-large"
+# EMBEDDING_MODEL_NAME ="BAAI/bge-reranker-large"
 #### MULTILINGUAL EMBEDDING MODELS
 ####
 
-# EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large" # Uses 2.5 GB of VRAM
-# EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-base" # Uses 1.2 GB of VRAM
-
+EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large" # Uses 2.5 GB of VRAM
 
 #### SELECT AN OPEN SOURCE LLM (LARGE LANGUAGE MODEL)
 # Select the Model ID and model_basename
@@ -97,8 +97,22 @@ EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Ac
 #### (FOR GGUF MODELS)
 ####
 
+MODEL_ID = "QuantFactory/Meta-Llama-3-8B-Instruct-GGUF"
+# MODEL_BASENAME = "Meta-Llama-3-8B-Instruct.Q6_K.gguf"  
+MODEL_BASENAME = "Meta-Llama-3-8B-Instruct.Q8_0.gguf"  # Highest viable quantization for 8GB GPUs
+
 # MODEL_ID = "TheBloke/Llama-2-13b-Chat-GGUF"
-# MODEL_BASENAME = "llama-2-13b-chat.Q4_K_M.gguf"
+# MODEL_BASENAME = "llama-2-13b-chat.Q5_K_M.gguf"
+
+# MODEL_ID = "TheBloke/Mistral-7B-Instruct-v0.1-GGUF"
+# MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
+# MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q5_K_M.gguf"
+
+# MODEL_ID = "TheBloke/OpenHermes-2.5-Mistral-7B-GGUF"
+# MODEL_BASENAME = "openhermes-2.5-mistral-7b.Q8_0.gguf"
+
+
+
 
 # MODEL_ID = "TheBloke/Llama-2-7b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-7b-chat.Q4_K_M.gguf"
@@ -115,15 +129,12 @@ EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Ac
 
 ####
 #
-MODEL_ID = "distilbert/distilgpt2"
-MODEL_BASENAME = None
+# MODEL_ID = "distilbert/distilgpt2"
+# MODEL_BASENAME = None
 
 # LLAMA 3 # use for NVIDIA GPUs
 # MODEL_ID = "unsloth/llama-3-8b-bnb-4bit"
 # MODEL_BASENAME = None
-
-# MODEL_ID = "TheBloke/Mistral-7B-Instruct-v0.1-GGUF"
-# MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
 
 # MODEL_ID = "TheBloke/Llama-2-70b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-70b-chat.Q4_K_M.gguf"

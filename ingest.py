@@ -67,41 +67,43 @@ def load_documents(source_dir: str) -> list[Document]:
     paths = []
     for root, _, files in os.walk(source_dir):
         for file_name in files:
-            print("Importing: " + file_name)
             file_extension = os.path.splitext(file_name)[1]
-            source_file_path = os.path.join(root, file_name)
             if file_extension in DOCUMENT_MAP.keys():
+                source_file_path = os.path.join(root, file_name)
                 paths.append(source_file_path)
+                file_log(f"Found document: {source_file_path}")
 
-    # Have at least one worker and at most INGEST_THREADS workers
+    if not paths:
+        file_log(f"No supported documents found in {source_dir}")
+        return []
+
+    # Calculate number of workers and chunk size
     n_workers = min(INGEST_THREADS, max(len(paths), 1))
-    chunksize = round(len(paths) / n_workers)
+    chunksize = max(1, len(paths) // n_workers)  # Ensure chunksize is at least 1
+    
+    file_log(f"Processing {len(paths)} documents with {n_workers} workers (chunksize: {chunksize})")
+
     docs = []
     with ProcessPoolExecutor(n_workers) as executor:
         futures = []
-        # split the load operations into chunks
         for i in range(0, len(paths), chunksize):
-            # select a chunk of filenames
-            filepaths = paths[i : (i + chunksize)]
-            # submit the task
+            filepaths = paths[i:i + chunksize]
             try:
                 future = executor.submit(load_document_batch, filepaths)
-            except Exception as ex:
-                file_log("executor task failed: %s" % (ex))
-                future = None
-            if future is not None:
                 futures.append(future)
-        # process all results
+            except Exception as ex:
+                file_log(f"Failed to submit batch: {ex}")
+
         for future in as_completed(futures):
-            # open the file and load the data
             try:
                 contents, _ = future.result()
-                docs.extend(contents)
+                if contents:
+                    docs.extend([doc for doc in contents if doc is not None])
             except Exception as ex:
-                file_log("Exception: %s" % (ex))
+                file_log(f"Error processing batch: {ex}")
 
+    file_log(f"Successfully loaded {len(docs)} documents")
     return docs
-
 
 def split_documents(documents: list[Document]) -> tuple[list[Document], list[Document]]:
     # Splits documents for correct Text Splitter
@@ -149,6 +151,11 @@ def main(device_type):
     # Load documents and split in chunks
     logging.info(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
+    
+    if not documents:
+        logging.error(f"No documents found in {SOURCE_DIRECTORY}")
+        return
+    
     text_documents, python_documents = split_documents(documents)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     python_splitter = RecursiveCharacterTextSplitter.from_language(
@@ -156,18 +163,11 @@ def main(device_type):
     )
     texts = text_splitter.split_documents(text_documents)
     texts.extend(python_splitter.split_documents(python_documents))
+    
     logging.info(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
     logging.info(f"Split into {len(texts)} chunks of text")
 
-    """
-    (1) Chooses an appropriate langchain library based on the enbedding model name.  Matching code is contained within fun_localGPT.py.
-    
-    (2) Provides additional arguments for instructor and BGE models to improve results, pursuant to the instructions contained on
-    their respective huggingface repository, project page or github repository.
-    """
-
     embeddings = get_embeddings(device_type)
-
     logging.info(f"Loaded embeddings from {EMBEDDING_MODEL_NAME}")
 
     db = Chroma.from_documents(
@@ -176,7 +176,6 @@ def main(device_type):
         persist_directory=PERSIST_DIRECTORY,
         client_settings=CHROMA_SETTINGS,
     )
-
 
 if __name__ == "__main__":
     logging.basicConfig(

@@ -5,6 +5,9 @@ import os
 import logging
 import click
 import torch
+print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
+print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
+print(f"Current device: {torch.cuda.current_device()}")
 import utils
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceInstructEmbeddings
@@ -118,7 +121,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
     agent_X = Agent(
         name="X", 
         embeddings_dir="../data/embeddings_X",
-        device_type="cpu",
+        device_type="cuda",
         use_history=False, 
         model_type=model_type, 
         persist_dir="../data/persist_X", 
@@ -138,7 +141,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
     agent_Y = Agent(
         name="Y", 
         embeddings_dir="../data/embeddings_Y",
-        device_type="cpu",
+        device_type="cuda",
         use_history=False, 
         model_type=model_type, 
         persist_dir="../data/persist_Y", 
@@ -168,6 +171,10 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
     current_context = "Please make an opening statement about your demands from Y."
     for round_num in range(1, rounds + 1):
         logging.info(f"Round {round_num}:")
+
+        # Clear GPU cache before each round
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
         # Agent X speaks
         agent_X_response = agent_X.ask(current_context)

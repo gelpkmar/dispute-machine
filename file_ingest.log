@@ -4,3 +4,261 @@
 ../data/portfolio_X/legal_script_txt.txt loaded.
 ../data/portfolio_Y/whatsapp_evidence.txt loaded.
 ../data/portfolio_Y/legal_script_txt.txt loaded.
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/ChatGPT Image Apr 13, 2025 at 11_43_29 PM.png document type is undefined.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/ChatGPT Image Apr 13, 2025 at 11_43_29 PM.png loading error: 
+Document type is undefined
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/Screenshot_website.png document type is undefined.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/Screenshot_website.png loading error: 
+Document type is undefined
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/ChatGPT Image Apr 13, 2025 at 11_43_29 PM.png document type is undefined.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/ChatGPT Image Apr 13, 2025 at 11_43_29 PM.png loading error: 
+Document type is undefined
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt
+Processing 1 documents with 1 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/legal_script_txt.txt loaded.
+Successfully loaded 1 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt
+Processing 2 documents with 2 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
+Successfully loaded 2 documents

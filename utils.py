@@ -29,25 +29,32 @@ def log_to_csv(question, answer):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         writer.writerow([timestamp, question, answer])
 
+from langchain_community.embeddings import HuggingFaceInstructEmbeddings, HuggingFaceEmbeddings
+from langchain_community.embeddings.huggingface import HuggingFaceBgeEmbeddings
+import torch
 
 def get_embeddings(device_type="cuda"):
-    if "instructor" in EMBEDDING_MODEL_NAME:
+    if EMBEDDING_MODEL_NAME == "hkunlp/instructor-large":
+        # Special handling for instructor model
+        model_kwargs = {"device": device_type}
+        encode_kwargs = {"normalize_embeddings": True}
         return HuggingFaceInstructEmbeddings(
             model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs={"device": device_type},
-            embed_instruction="Represent the document for retrieval:",
-            query_instruction="Represent the question for retrieving supporting documents:",
+            model_kwargs=model_kwargs,
+            encode_kwargs=encode_kwargs,
+            query_instruction="Represent the query for retrieval: ",
+            embed_instruction="Represent the document for retrieval: "
         )
-
-    elif "bge" in EMBEDDING_MODEL_NAME:
+    elif "bge" in EMBEDDING_MODEL_NAME.lower():
         return HuggingFaceBgeEmbeddings(
             model_name=EMBEDDING_MODEL_NAME,
             model_kwargs={"device": device_type},
-            query_instruction="Represent this sentence for searching relevant passages:",
+            encode_kwargs={"normalize_embeddings": True},
+            query_instruction="Represent this sentence for searching relevant passages: "
         )
-
     else:
         return HuggingFaceEmbeddings(
             model_name=EMBEDDING_MODEL_NAME,
             model_kwargs={"device": device_type},
+            encode_kwargs={"normalize_embeddings": True}
         )
