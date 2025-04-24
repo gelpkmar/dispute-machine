@@ -272,3 +272,123 @@ Processing 2 documents with 2 workers (chunksize: 1)
 /home/liakos/Desktop/dispute-machine/data/portfolio_Y/whatsapp_evidence.txt loaded.
 /home/liakos/Desktop/dispute-machine/data/portfolio_Y/legal_script_txt.txt loaded.
 Successfully loaded 2 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/4_lieferschein.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/5_reklamation.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/6_antwort_verkaeuferin.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/1_kaufvertrag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb_ausfuehrlich.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/3_rechnung.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/7_vergleichsvorschlag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/8_ablehnung_vergleich.docx
+Processing 9 documents with 9 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/6_antwort_verkaeuferin.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/4_lieferschein.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/5_reklamation.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/1_kaufvertrag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb_ausfuehrlich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/3_rechnung.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/7_vergleichsvorschlag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/8_ablehnung_vergleich.docx loaded.
+Successfully loaded 9 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/4_lieferschein.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/5_reklamation.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/6_antwort_verkaeuferin.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/1_kaufvertrag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb_ausfuehrlich.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/3_rechnung.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/7_vergleichsvorschlag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/8_ablehnung_vergleich.docx
+Processing 9 documents with 9 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/6_antwort_verkaeuferin.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/4_lieferschein.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/1_kaufvertrag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb_ausfuehrlich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/5_reklamation.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/8_ablehnung_vergleich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/3_rechnung.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/7_vergleichsvorschlag.docx loaded.
+Successfully loaded 9 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/4_lieferschein.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/5_reklamation.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/6_antwort_verkaeuferin.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/1_kaufvertrag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb_ausfuehrlich.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/3_rechnung.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/7_vergleichsvorschlag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/8_ablehnung_vergleich.docx
+Processing 9 documents with 9 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/6_antwort_verkaeuferin.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/4_lieferschein.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/1_kaufvertrag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb_ausfuehrlich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/5_reklamation.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/3_rechnung.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/7_vergleichsvorschlag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/8_ablehnung_vergleich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb.docx loaded.
+Successfully loaded 9 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/4_lieferschein.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/5_reklamation.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/6_antwort_verkaeuferin.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/1_kaufvertrag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb_ausfuehrlich.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/3_rechnung.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/7_vergleichsvorschlag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/8_ablehnung_vergleich.docx
+Processing 9 documents with 9 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/4_lieferschein.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb_ausfuehrlich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/6_antwort_verkaeuferin.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/5_reklamation.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/8_ablehnung_vergleich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/3_rechnung.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/1_kaufvertrag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/7_vergleichsvorschlag.docx loaded.
+Successfully loaded 9 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/4_lieferschein.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/5_reklamation.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/6_antwort_verkaeuferin.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/1_kaufvertrag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb_ausfuehrlich.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/3_rechnung.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/7_vergleichsvorschlag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_X/8_ablehnung_vergleich.docx
+Processing 9 documents with 9 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/4_lieferschein.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb_ausfuehrlich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/5_reklamation.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/1_kaufvertrag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/7_vergleichsvorschlag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/6_antwort_verkaeuferin.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/8_ablehnung_vergleich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/2_agb.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_X/3_rechnung.docx loaded.
+Successfully loaded 9 documents
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/4_lieferschein.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/5_reklamation.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/6_antwort_verkaeuferin.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/1_kaufvertrag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb_ausfuehrlich.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/3_rechnung.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/7_vergleichsvorschlag.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb.docx
+Found document: /home/liakos/Desktop/dispute-machine/data/portfolio_Y/8_ablehnung_vergleich.docx
+Processing 9 documents with 9 workers (chunksize: 1)
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/1_kaufvertrag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/6_antwort_verkaeuferin.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/5_reklamation.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/4_lieferschein.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/7_vergleichsvorschlag.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/8_ablehnung_vergleich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb_ausfuehrlich.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/3_rechnung.docx loaded.
+/home/liakos/Desktop/dispute-machine/data/portfolio_Y/2_agb.docx loaded.
+Successfully loaded 9 documents

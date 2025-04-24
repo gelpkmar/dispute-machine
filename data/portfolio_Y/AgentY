@@ -1,0 +1,25 @@
+  {
+ "vollständiger_name": "Hilda Sidler",
+ "age": 64,
+ "gender": "Male",
+ "nationality": "Swiss",
+ "occupation": "Saler",
+ "background": "Geboren in Zürich",
+ "personality_traits": [
+ "Streitsüchtig",
+ "Stur",
+ "Streitsüchtig"
+ ],
+ "legal_issue_involved": "Anspruch auf Personenschaden",
+ "dispute_style": "Schlichtung",
+ "financial_status": "Erheblicher Immobilienbesitz | Hoher Fremdkapitalanteil",
+ "goals_in_dispute": "Reputationsschutz",
+ "communication_style": "Deutsch-dominant | Direkt verbal",
+ "dispute_context": {
+ "type": "Mietrechtskonflikt",
+ "opposing_party": "Geschäftspartner",
+ "facts": "Streit um Dienstleistungsqualität",
+ "preferred_resolution": "Volle finanzielle Entschädigung"
+ }
+  }
+

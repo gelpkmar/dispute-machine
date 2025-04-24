@@ -97,9 +97,13 @@ EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large" # Uses 2.5 GB of VRAM
 #### (FOR GGUF MODELS)
 ####
 
-MODEL_ID = "QuantFactory/Meta-Llama-3-8B-Instruct-GGUF"
-# MODEL_BASENAME = "Meta-Llama-3-8B-Instruct.Q6_K.gguf"  
-MODEL_BASENAME = "Meta-Llama-3-8B-Instruct.Q8_0.gguf"  # Highest viable quantization for 8GB GPUs
+# MODEL_ID = "QuantFactory/Meta-Llama-3-8B-Instruct-GGUF"
+# MODEL_BASENAME = "Meta-Llama-3-8B-Instruct.Q8_0.gguf"  # Highest viable quantization for 8GB GPUs
+
+# MODEL_ID = "LeoLM/leo-hessianai-13b"
+# MODEL_BASENAME = "LeoLM/leo-hessianai-13b"
+MODEL_ID = "LeoLM/leo-hessianai-7b"
+MODEL_BASENAME = "LeoLM/leo-hessianai-7b"
 
 # MODEL_ID = "TheBloke/Llama-2-13b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-13b-chat.Q5_K_M.gguf"

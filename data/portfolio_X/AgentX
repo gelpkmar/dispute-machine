@@ -1,0 +1,24 @@
+  {
+ "vollständiger_name": "Biagio Badel",
+ "age": 33,
+ "gender": "Male",
+ "nationality": "Italienisch",
+ "occupation": "Kunde",
+ "Hintergrund": "Ehemaliger Roche-Mitarbeiter",
+ "personality_traits": [
+ "Emotional",
+ "Kooperativ",
+ "Detailorientiert"
+ ],
+ "legal_issue_involved": "Anspruch auf Personenschaden",
+ "dispute_style": "Aggressiv",
+ "financial_status": "CHF 417k Jahresgehalt | Keine Schulden",
+ "goals_in_dispute": "Finanzielle Entschädigung",
+ "communication_style": "Fließendes Englisch | Emotional",
+ "dispute_context": {
+ "type": "Vertragsverletzung",
+ "opposing_party": "Geschäftspartner",
+ "facts": "Streit um Sachschaden",
+ "preferred_resolution": "Vertragsänderung"
+ }
+  }
