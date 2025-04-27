@@ -61,7 +61,6 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
-        - Streitverlauf: {agent_state['dispute_history']}
 
         Dies ist die letzte Runde deines Streits mit {agent_state['dispute_partner']}. Du hast bisher nach einer Einigung gesucht. 
         
@@ -81,7 +80,6 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
-        - Streitverlauf: {agent_state['dispute_history']}
 
         Basierend auf den obigen Informationen, sollte deine Antwort die folgenden Punkte behandeln:
         1. Drücke Frustration über die verspätete Lieferung aus.
@@ -233,22 +231,29 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
         agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds)+current_context)
         answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
         logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
+
+        # Log question from Y and anwer from X to CSV only if save_qa is True
+        if save_qa:
+            utils.log_to_csv(current_context, answer_X)
+
         current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_X}"
         agent_state_x['dispute_history'].append([current_context, answer_X])
 
-        if save_qa:
-            utils.log_to_csv(current_context, answer_X)
+        
 
         # Agent 2 speaks
         agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds)+current_context)
         answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
         logging.info(f"Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
+
+        # Log question from X and anwer from Y to CSV only if save_qa is True
+        if save_qa:
+            utils.log_to_csv(current_context, answer_Y)
+
         current_context = f"\nDie neuste Aussage von {agent_state_y['name']}: {answer_Y}"
         agent_state_y['dispute_history'].append([current_context, answer_Y])
 
-        # Log the Q&A to CSV only if save_qa is True
-        if save_qa:
-            utils.log_to_csv(current_context, answer_Y)
+        
     
 
     
