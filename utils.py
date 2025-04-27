@@ -1,5 +1,5 @@
 import os
-import csv
+import csv, json
 from datetime import datetime
 from constants import EMBEDDING_MODEL_NAME
 from langchain.embeddings import HuggingFaceInstructEmbeddings
@@ -28,6 +28,28 @@ def log_to_csv(question, answer):
         writer = csv.writer(file)
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         writer.writerow([timestamp, question, answer])
+
+def save_dispute_history_to_json(agent_x_state, agent_y_state, simulation_round):
+    data = {
+        "simulation_round": simulation_round,
+        "agent_X": {
+            "name": agent_x_state['name'],
+            "history": agent_x_state['dispute_history'],
+        },
+        "agent_Y": {
+            "name": agent_y_state['name'],
+            "history": agent_y_state['dispute_history'],
+        }
+    }
+
+    # Make sure the output folder exists
+    os.makedirs("saved_histories", exist_ok=True)
+    filename = f"saved_histories/simulation_round_{simulation_round}.json"
+    
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+    print(f"✅ Dispute history saved to {filename}")
 
 from langchain_community.embeddings import HuggingFaceInstructEmbeddings, HuggingFaceEmbeddings
 from langchain_community.embeddings.huggingface import HuggingFaceBgeEmbeddings

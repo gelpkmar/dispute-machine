@@ -118,9 +118,9 @@ EMBEDDING_MODEL_NAME = "sentence-transformers/LaBSE"
 
 # https://huggingface.co/TheBloke/DiscoLM_German_7b_v1-GGUF
 MODEL_ID = "TheBloke/DiscoLM_German_7b_v1-GGUF"  # Hugging Face repo
-# # MODEL_BASENAME = "discolm_german_7b_v1.Q5_K_M.gguf" # 	large, very low quality loss - recommended
+MODEL_BASENAME = "discolm_german_7b_v1.Q5_K_M.gguf" # large, very low quality loss - recommended
 # MODEL_BASENAME = "discolm_german_7b_v1.Q6_K.gguf" # very large, extremely low quality loss
-MODEL_BASENAME = "discolm_german_7b_v1.Q8_0.gguf" # very large, extremely low quality loss - not recommended
+# MODEL_BASENAME = "discolm_german_7b_v1.Q8_0.gguf" # very large, extremely low quality loss - not recommended
 
 # MODEL_ID = "mayflowergmbh/Llama3-German-8B-GGUF" # https://huggingface.co/DiscoResearch/Llama3-German-8B?library=transformers
 # MODEL_BASENAME = "llama3-german-8b.Q4_K_M.gguf" # Specific GGUF file

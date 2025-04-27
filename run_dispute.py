@@ -1,5 +1,6 @@
 # python run_dispute.py --save_qa --rounds 3 --show_sources
 # history -c && history -w
+import gc  # Garbage Collector interface
 import ingest, run_localGPT, utils
 from agent import Agent
 
@@ -10,7 +11,7 @@ import torch
 print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
 print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
 print(f"Current device: {torch.cuda.current_device()}")
-import utils
+from utils import save_dispute_history_to_json
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline
@@ -188,78 +189,75 @@ agent_state_y = {
 
 
 def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
-
     for simulation_round in range(1, 10):
         logging.info(f"Simulation Round {simulation_round}:")
         logging.info(f"Running on: {device_type}")
         logging.info(f"Display Source Documents set to: {show_sources}")
         logging.info(f"Use history set to: {use_history}")
 
-        # check if models directory do not exist, create a new one and store models here.
         if not os.path.exists(MODELS_PATH):
             os.mkdir(MODELS_PATH)
 
-        # qa = run_localGPT.retrieval_qa_pipline(device_type, use_history, promptTemplate_type=model_type)
-        agent_X = Agent(
-            name="X", 
-            embeddings_dir="../data/embeddings_X",
-            device_type="cuda",
-            use_history=False, 
-            model_type=model_type, 
-            persist_dir="../data/persist_X", 
-            promptTemplate_type=model_type, 
-            agent_state = agent_state_x
-        )
-        agent_Y = Agent(
-            name="Y", 
-            embeddings_dir="../data/embeddings_Y",
-            device_type="cuda",
-            use_history=False, 
-            model_type=model_type, 
-            persist_dir="../data/persist_Y", 
-            promptTemplate_type=model_type,
-            agent_state = agent_state_y
-        )
-        
-        # """
-        # Start a discussion between two agents.
-        # """
+        # ⚡ Use no_grad to disable gradient tracking and save memory
+        with torch.no_grad():
 
-        current_context = ""
-        for round_num in range(1, rounds + 1): 
+            agent_X = Agent(
+                name="X", 
+                embeddings_dir="../data/embeddings_X",
+                device_type="cuda",
+                use_history=False, 
+                model_type=model_type, 
+                persist_dir="../data/persist_X", 
+                promptTemplate_type=model_type, 
+                agent_state=agent_state_x
+            )
+            agent_Y = Agent(
+                name="Y", 
+                embeddings_dir="../data/embeddings_Y",
+                device_type="cuda",
+                use_history=False, 
+                model_type=model_type, 
+                persist_dir="../data/persist_Y", 
+                promptTemplate_type=model_type,
+                agent_state=agent_state_y
+            )
 
-            logging.info(f"Round {round_num}:")
+            current_context = ""
+            for round_num in range(1, rounds + 1): 
+                logging.info(f"Simulation {simulation_round}, Round {round_num}:")
 
-            # Clear GPU cache before each round
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
 
-            # Agent X speaks
-            agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds)+current_context)
-            answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
-            logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
+                # Agent X speaks
+                agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds) + current_context)
+                answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
+                logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
 
-            # Log question from Y and anwer from X to CSV only if save_qa is True
-            if save_qa:
-                utils.log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_X)
+                if save_qa:
+                    utils.log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_X)
 
-            current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_X}"
-            agent_state_x['dispute_history'].append([current_context, answer_X])
+                current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_X}"
+                agent_state_x['dispute_history'].append([current_context, answer_X])
 
-            
+                # Agent Y speaks
+                agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds) + current_context)
+                answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
+                logging.info(f"Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
 
-            # Agent 2 speaks
-            agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds)+current_context)
-            answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
-            logging.info(f"Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
+                if save_qa:
+                    utils.log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_Y)
 
-            # Log question from X and anwer from Y to CSV only if save_qa is True
-            if save_qa:
-                utils.log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_Y)
+                current_context = f"\nDie neuste Aussage von {agent_state_y['name']}: {answer_Y}"
+                agent_state_y['dispute_history'].append([current_context, answer_Y])
 
-            current_context = f"\nDie neuste Aussage von {agent_state_y['name']}: {answer_Y}"
-            agent_state_y['dispute_history'].append([current_context, answer_Y])
-    
+            save_dispute_history_to_json(agent_state_x, agent_state_y, simulation_round)
+
+            # ✅ After each simulation round: clean up
+            del agent_X
+            del agent_Y
+            torch.cuda.empty_cache()
+            gc.collect()
 
 if __name__ == "__main__":
     logging.basicConfig(
