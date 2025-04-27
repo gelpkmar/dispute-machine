@@ -100,7 +100,7 @@ agent_state_x = {
     'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
-        'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest die entstandenen Schäden so klein wie möglich halten..', 
+        'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest die entstandenen Schäden so klein wie möglich halten..', 
         'facts': 'Streit über Servicequalität',
         'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%.'
     },
@@ -115,9 +115,9 @@ agent_state_y = {
     'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
-        'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest einen Preisnachlass erreichen.',
+        'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest einen Preisnachlass erreichen.',
         'facts': 'Streit über Servicequalität',
-        'preferred_resolution': 'PReisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen.'
+        'preferred_resolution': 'Preisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen.'
     },
     'dispute_partner': 'Biagio Badel',
     'dispute_history': [[]]
@@ -238,7 +238,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
 
         # Log question from Y and anwer from X to CSV only if save_qa is True
         if save_qa:
-            utils.log_to_csv(current_context, answer_X)
+            utils.log_to_csv(f'Round{round_num}: {current_context}', answer_X)
 
         current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_X}"
         agent_state_x['dispute_history'].append([current_context, answer_X])
@@ -252,7 +252,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
 
         # Log question from X and anwer from Y to CSV only if save_qa is True
         if save_qa:
-            utils.log_to_csv(current_context, answer_Y)
+            utils.log_to_csv(f'Round{round_num}: {current_context}', answer_Y)
 
         current_context = f"\nDie neuste Aussage von {agent_state_y['name']}: {answer_Y}"
         agent_state_y['dispute_history'].append([current_context, answer_Y])
