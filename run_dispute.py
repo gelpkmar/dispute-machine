@@ -100,9 +100,9 @@ agent_state_x = {
     'dispute_context': {
         'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest die entstandenen Schäden so klein wie möglich halten..', 
         'facts': 'Streit über Servicequalität',
-        'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%'
+        'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%.'
     },
-    'dispute_partner': 'Y',
+    'dispute_partner': 'Hilda Sidler',
     'dispute_history': []
 }
 
@@ -115,9 +115,9 @@ agent_state_y = {
     'dispute_context': {
         'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest einen Preisnachlass erreichen.',
         'facts': 'Streit über Servicequalität',
-        'preferred_resolution': 'PReisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen'
+        'preferred_resolution': 'PReisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen.'
     },
-    'dispute_partner': 'X',
+    'dispute_partner': 'Biagio Badel',
     'dispute_history': []
 }
 
@@ -242,8 +242,8 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
         # Agent 2 speaks
         agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds)+current_context)
         answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
-        logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {agent_Y_response}")
-        current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_Y}"
+        logging.info(f"Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
+        current_context = f"\nDie neuste Aussage von {agent_state_y['name']}: {answer_Y}"
         agent_state_y['dispute_history'].append([current_context, answer_Y])
 
         # Log the Q&A to CSV only if save_qa is True
