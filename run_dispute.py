@@ -61,6 +61,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
+        - Streitverlauf: {agent_state['dispute_history'][-1]}
 
         Dies ist die letzte Runde deines Streits mit {agent_state['dispute_partner']}. Du hast bisher nach einer Einigung gesucht. 
         
@@ -69,6 +70,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         2. Bist du bereit, zu einer Einigung zu kommen oder nicht?
         3. Falls du weiterhin unzufrieden bist, erkläre warum und ob du den Streit vor Gericht bringen möchtest.
 
+        {agent_state['characteristics']}.
         Bitte triff eine endgültige Entscheidung, entweder zu einer Einigung mit {agent_state['name']} zu kommen oder den Streit vor Gericht zu bringen.
         """
     else:
@@ -80,12 +82,14 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
+        - Streitverlauf: {agent_state['dispute_history'][-1]}
 
         Basierend auf den obigen Informationen, sollte deine Antwort die folgenden Punkte behandeln:
         1. Drücke Frustration über die verspätete Lieferung aus.
         2. Betone deine finanziellen Verluste und unterstreiche die Ernsthaftigkeit des Problems.
         3. Fordere einen Kompromiss und/oder eine Vertragsänderung.
         Antworte immer auf die untenstehende Aussage von {agent_state['dispute_partner']} unter Berücksichtigung der oben stehenden Daten (inkl. Streitverlauf).
+        {agent_state['characteristics']}. 
         """
 
 # Example of updating agent state after each round
@@ -93,7 +97,7 @@ agent_state_x = {
     'name': 'Biagio Badel',
     'age': 33,
     'gender': 'Männlich',
-    'legal_issue_involved': 'Personenschadenanspruch',
+    'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
         'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest die entstandenen Schäden so klein wie möglich halten..', 
@@ -101,14 +105,14 @@ agent_state_x = {
         'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%.'
     },
     'dispute_partner': 'Hilda Sidler',
-    'dispute_history': []
+    'dispute_history': [[]]
 }
 
 agent_state_y = {
     'name': 'Hilda Sidler',
     'age': 64,
     'gender': 'Weiblich',
-    'legal_issue_involved': 'Personenschadenanspruch',
+    'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
         'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest einen Preisnachlass erreichen.',
@@ -116,7 +120,7 @@ agent_state_y = {
         'preferred_resolution': 'PReisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen.'
     },
     'dispute_partner': 'Biagio Badel',
-    'dispute_history': []
+    'dispute_history': [[]]
 }
 
 
