@@ -75,7 +75,10 @@ DOCUMENT_MAP = {
 #### MULTILINGUAL EMBEDDING MODELS
 ####
 
-EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large" # Uses 2.5 GB of VRAM
+EMBEDDING_MODEL_NAME = "sentence-transformers/LaBSE"
+# EMBEDDING_MODEL_NAME = "T-Systems-onsite/cross-en-de-roberta-sentence-transformer"
+# EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large" # Uses 2.5 GB of VRAM
+# EMBEDDING_MODEL_NAME = "intfloat/e5-mistral-7b-instruct" ####
 
 #### SELECT AN OPEN SOURCE LLM (LARGE LANGUAGE MODEL)
 # Select the Model ID and model_basename
@@ -102,8 +105,26 @@ EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large" # Uses 2.5 GB of VRAM
 
 # MODEL_ID = "LeoLM/leo-hessianai-13b"
 # MODEL_BASENAME = "LeoLM/leo-hessianai-13b"
-MODEL_ID = "LeoLM/leo-hessianai-7b"
-MODEL_BASENAME = "LeoLM/leo-hessianai-7b"
+# MODEL_ID = "LeoLM/leo-hessianai-7b"
+# MODEL_BASENAME = "LeoLM/leo-hessianai-7b"
+# MODEL_ID = "TheBloke/Llama-2-7B-Chat-GGML"
+# MODEL_BASENAME = "llama-2-7b-chat.ggmlv3.q4_0.bin"
+
+# MODEL_ID= "TheBloke/leo-hessianai-7B-chat-GGUF"
+# MODEL_BASENAME= "leo-hessianai-7b-chat.Q8_0.gguf"
+
+# MODEL_ID = "TheBloke/leo-hessianai-7B-chat-GGUF"
+# MODEL_BASENAME = "leo-hessianai-7b-chat.Q4_K_M.gguf"
+
+# https://huggingface.co/TheBloke/DiscoLM_German_7b_v1-GGUF
+MODEL_ID = "TheBloke/DiscoLM_German_7b_v1-GGUF"  # Hugging Face repo
+# # MODEL_BASENAME = "discolm_german_7b_v1.Q5_K_M.gguf" # 	large, very low quality loss - recommended
+# MODEL_BASENAME = "discolm_german_7b_v1.Q6_K.gguf" # very large, extremely low quality loss
+MODEL_BASENAME = "discolm_german_7b_v1.Q8_0.gguf" # very large, extremely low quality loss - not recommended
+
+# MODEL_ID = "mayflowergmbh/Llama3-German-8B-GGUF" # https://huggingface.co/DiscoResearch/Llama3-German-8B?library=transformers
+# MODEL_BASENAME = "llama3-german-8b.Q4_K_M.gguf" # Specific GGUF file
+
 
 # MODEL_ID = "TheBloke/Llama-2-13b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-13b-chat.Q5_K_M.gguf"

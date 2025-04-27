@@ -1,3 +1,5 @@
+# python run_dispute.py --save_qa --rounds 3
+# history -c && history -w
 import ingest, run_localGPT, utils
 from agent import Agent
 
@@ -14,6 +16,9 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler  # for streaming response
 from langchain.callbacks.manager import CallbackManager
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.document_loaders import CSVLoader, TextLoader
 
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
@@ -72,7 +77,7 @@ def x_prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         2. Bist du bereit, das Angebot anzunehmen oder nicht?
         3. Falls du weiterhin unzufrieden bist, erkläre warum und ob du den Streit vor Gericht bringen möchtest.
 
-        Bitte triff eine endgültige Entscheidung, entweder das Angebot anzunehmen oder abzulehnen und den Streit vor Gericht zu bringen. PLEASE SPEAK IN GERMAN.
+        Bitte triff eine endgültige Entscheidung, entweder das Angebot anzunehmen oder abzulehnen und den Streit vor Gericht zu bringen.
         """
     else:
         return f"""
@@ -94,8 +99,6 @@ def x_prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         1. Drücke Frustration über die verspätete Lieferung aus.
         2. Betone deine finanziellen Verluste und unterstreiche die Ernsthaftigkeit des Problems.
         3. Fordere einen Kompromiss und/oder eine Vertragsänderung.
-
-        PLEASE SPEAK IN GERMAN.
         """
 
 def y_prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
@@ -125,7 +128,6 @@ def y_prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         3. Falls du weiterhin unzufrieden bist, erkläre warum und ob du den Streit vor Gericht bringen möchtest.
 
         Bitte triff eine endgültige Entscheidung, entweder das Angebot anzunehmen oder abzulehnen und den Streit vor Gericht zu bringen.
-        PLEASE SPEAK IN GERMAN.
         """
     else:
         return f"""
@@ -146,7 +148,6 @@ def y_prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         Basierend auf den obigen Informationen, sollte deine Antwort die folgenden Punkte behandeln:
         1. Drücke deine Enttäuschung über das angebotene Entgegenkommen aus.
         2. Betone den Einfluss auf deinen Ruf und die Notwendigkeit einer höheren Entschädigung.
-        PLEASE SPEAK IN GERMAN.
         """
 
 # Example of updating agent state after each round
@@ -269,7 +270,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
     Start a discussion between two agents.
     """
 
-    current_context = "Please make an opening statement about your demands from Y. PLEASE SPEAK IN GERMAN."
+    current_context = "Please make an opening statement about your demands from Y."
     for round_num in range(1, rounds + 1): 
 
         logging.info(f"Round {round_num}:")
