@@ -57,7 +57,6 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         Du bist {agent_state['name']}, {agent_state['age']} Jahre alt und {agent_state['gender']}. Du befindest dich aktuell in einem Streit mit {agent_state['dispute_partner']}.
 
         Aktuelle Situation:
-        - Dein Ziel in diesem Streit: {agent_state['dispute_context']['goal']}
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
@@ -77,7 +76,6 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         Du bist {agent_state['name']}, {agent_state['age']} Jahre alt und {agent_state['gender']}. Du befindest dich aktuell in einem Streit mit {agent_state['dispute_partner']}.
 
         Aktuelle Situation:
-        - Dein Ziel in diesem Streit: {agent_state['dispute_context']['goal']}
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
@@ -98,7 +96,6 @@ agent_state_x = {
     'legal_issue_involved': 'Personenschadenanspruch',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
-        'goal': '10% Preisnachlass und/oder vertragsänderung zu deinem Gunsten',
         'facts': 'Streit über Servicequalität',
         'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10% Vertragsänderung'
     },
@@ -113,7 +110,6 @@ agent_state_y = {
     'legal_issue_involved': 'Personenschadenanspruch',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
-        'goal': '10% Preisnachlass und/oder vertragsänderung zu deinem Gunsten',
         'facts': 'Streit über Servicequalität',
         'preferred_resolution': 'PReisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen'
     },
@@ -216,9 +212,9 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
         agent_state = agent_state_y
     )
     
-    """
-    Start a discussion between two agents.
-    """
+    # """
+    # Start a discussion between two agents.
+    # """
 
     current_context = ""
     for round_num in range(1, rounds + 1): 
@@ -236,6 +232,9 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
         current_context = f"\nDie aktuelle Aussage von X ist: {answer_X}"
         agent_state_x['dispute_history'].append([current_context, answer_X])
 
+        if save_qa:
+            utils.log_to_csv(current_context, answer_X)
+
         # Agent 2 speaks
         agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds)+current_context)
         answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
@@ -245,8 +244,8 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
 
         # Log the Q&A to CSV only if save_qa is True
         if save_qa:
-            utils.log_to_csv(current_context, answer_X)
             utils.log_to_csv(current_context, answer_Y)
+    
 
     
 
