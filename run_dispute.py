@@ -57,6 +57,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         Du bist {agent_state['name']}, {agent_state['age']} Jahre alt und {agent_state['gender']}. Du befindest dich aktuell in einem Streit mit {agent_state['dispute_partner']}.
 
         Aktuelle Situation:
+        - Deine Rolle: {agent_state['dispute_context']['context']}
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
@@ -69,13 +70,14 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         2. Bist du bereit, zu einer Einigung zu kommen oder nicht?
         3. Falls du weiterhin unzufrieden bist, erkläre warum und ob du den Streit vor Gericht bringen möchtest.
 
-        Bitte triff eine endgültige Entscheidung, entweder das Angebot anzunehmen oder abzulehnen und den Streit vor Gericht zu bringen.
+        Bitte triff eine endgültige Entscheidung, entweder zu einer Einigung mit {agent_state['name']} zu kommen oder den Streit vor Gericht zu bringen.
         """
     else:
         return f"""
         Du bist {agent_state['name']}, {agent_state['age']} Jahre alt und {agent_state['gender']}. Du befindest dich aktuell in einem Streit mit {agent_state['dispute_partner']}.
 
         Aktuelle Situation:
+        - Deine Rolle: {agent_state['dispute_context']['context']}
         - Rechtliches Thema: {agent_state['legal_issue_involved']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
@@ -85,31 +87,33 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         1. Drücke Frustration über die verspätete Lieferung aus.
         2. Betone deine finanziellen Verluste und unterstreiche die Ernsthaftigkeit des Problems.
         3. Fordere einen Kompromiss und/oder eine Vertragsänderung.
-        Antworte immer auf die untenstehende Aussage von {agent_state['dispute_partner']}.
+        Antworte immer auf die untenstehende Aussage von {agent_state['dispute_partner']} unter Berücksichtigung der oben stehenden Daten (inkl. Streitverlauf).
         """
 
 # Example of updating agent state after each round
 agent_state_x = {
-    'name': 'X',
+    'name': 'Biagio Badel',
     'age': 33,
     'gender': 'Männlich',
     'legal_issue_involved': 'Personenschadenanspruch',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
+        'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest die entstandenen Schäden so klein wie möglich halten..', 
         'facts': 'Streit über Servicequalität',
-        'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10% Vertragsänderung'
+        'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%'
     },
     'dispute_partner': 'Y',
     'dispute_history': []
 }
 
 agent_state_y = {
-    'name': 'Y',
+    'name': 'Hilda Sidler',
     'age': 64,
     'gender': 'Weiblich',
     'legal_issue_involved': 'Personenschadenanspruch',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
+        'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung und möchtest einen Preisnachlass erreichen.',
         'facts': 'Streit über Servicequalität',
         'preferred_resolution': 'PReisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen'
     },
@@ -228,8 +232,8 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
         # Agent X speaks
         agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds)+current_context)
         answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
-        logging.info(f"Die aktuelle Aussage von X ist: {agent_X_response}")
-        current_context = f"\nDie aktuelle Aussage von X ist: {answer_X}"
+        logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
+        current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_X}"
         agent_state_x['dispute_history'].append([current_context, answer_X])
 
         if save_qa:
@@ -238,8 +242,8 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
         # Agent 2 speaks
         agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds)+current_context)
         answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
-        logging.info(f"Die aktuelle Aussage von Y ist: {agent_Y_response}")
-        current_context = f"\nDie aktuelle Aussage von Y ist: {answer_Y}"
+        logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {agent_Y_response}")
+        current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_Y}"
         agent_state_y['dispute_history'].append([current_context, answer_Y])
 
         # Log the Q&A to CSV only if save_qa is True
