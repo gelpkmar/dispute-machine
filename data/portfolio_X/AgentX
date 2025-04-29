@@ -1,11 +1,11 @@
   {
  "vollständiger_name": "Biagio Badel",
- "age": 33,
- "gender": "Male",
- "nationality": "Italienisch",
- "occupation": "Kunde",
+ "alter": 33,
+ "geschlecht": "Male",
+ "nationalität": "Italienisch",
+ "Beruf": "Kunde",
  "Hintergrund": "Ehemaliger Roche-Mitarbeiter",
- "personality_traits": [
+ "persönlichkeit_eigenschaften": [
  "Emotional",
  "Kooperativ",
  "Detailorientiert"
