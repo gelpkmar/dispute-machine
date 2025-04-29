@@ -1,0 +1,1352 @@
+[
+  {
+    "company_name": "Bär International Diplomacy GmbH",
+    "jurisdiction": "Schwyz, Switzerland",
+    "industry": "International Diplomacy",
+    "core_activities": "Research of international diplomacy",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Margarita Bauer",
+        "role": "CEO",
+        "background": "HSG St. Gallen graduate, ex-Swatch"
+      },
+      {
+        "name": "Myrtha Bühlmann",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 8 years experience"
+      }
+    ],
+    "financial_status": "CHF 2719M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Stutz Clean Energy SA",
+    "jurisdiction": "Basel-Stadt, Switzerland",
+    "industry": "Clean Energy",
+    "core_activities": "Research of clean energy",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Laetitia Hofmann",
+        "role": "CEO",
+        "background": "HSG St. Gallen graduate, ex-Swatch"
+      },
+      {
+        "name": "Adrian Gross",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 6 years experience"
+      }
+    ],
+    "financial_status": "CHF 1748M revenue | Strong liquidity",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Schaub Chemical Manufacturing GmbH",
+    "jurisdiction": "Ticino, Switzerland",
+    "industry": "Chemical Manufacturing",
+    "core_activities": "Research of chemical manufacturing",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Hannah Eugster",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Rosemarie Sigrist",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 20 years experience"
+      }
+    ],
+    "financial_status": "CHF 1806M revenue | Strong liquidity",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Sigrist Chocolate Manufacturing SA",
+    "jurisdiction": "Ticino, Switzerland",
+    "industry": "Chocolate Manufacturing",
+    "core_activities": "Research of chocolate manufacturing",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Danica Bär",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Lydie Portmann",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 16 years experience"
+      }
+    ],
+    "financial_status": "CHF 1291M revenue | Highly leveraged",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Meili Biotechnology Sàrl",
+    "jurisdiction": "Schwyz, Switzerland",
+    "industry": "Biotechnology",
+    "core_activities": "Research of biotechnology",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Meinrad Imhof",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Fisnik Blaser",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 10 years experience"
+      }
+    ],
+    "financial_status": "CHF 1781M revenue | Highly leveraged",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Schär Machine Tools Sàrl",
+    "jurisdiction": "Basel-Stadt, Switzerland",
+    "industry": "Machine Tools",
+    "core_activities": "Production of machine tools",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Erika Küng",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Leonor Kägi",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 12 years experience"
+      }
+    ],
+    "financial_status": "CHF 2286M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Friedli Private Banking Sàrl",
+    "jurisdiction": "Schwyz, Switzerland",
+    "industry": "Private Banking",
+    "core_activities": "Discretionary asset management for UHNWIs",
+    "legal_issues": "AML investigation",
+    "key_persons": [
+      {
+        "name": "Egzona Bühler",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-Swatch"
+      },
+      {
+        "name": "Viktoria Jäggi",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 19 years experience"
+      }
+    ],
+    "financial_status": "CHF 3285M revenue | Highly leveraged",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "FINMA",
+      "US Department of Justice",
+      "Client spouse"
+    ]
+  },
+  {
+    "company_name": "Lanz Textile Machinery AG",
+    "jurisdiction": "St. Gallen, Switzerland",
+    "industry": "Textile Machinery",
+    "core_activities": "Research of textile machinery",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Adelina Lanz",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-Roche"
+      },
+      {
+        "name": "Gennaro Zimmermann",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 11 years experience"
+      }
+    ],
+    "financial_status": "CHF 3033M revenue | Strong liquidity",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Gerber Textile Machinery AG",
+    "jurisdiction": "Valais, Switzerland",
+    "industry": "Textile Machinery",
+    "core_activities": "Research of textile machinery",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Ariana Wüthrich",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-Swatch"
+      },
+      {
+        "name": "Eve Walder",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 9 years experience"
+      }
+    ],
+    "financial_status": "CHF 558M revenue | Strong liquidity",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Kern Watchmaking SA",
+    "jurisdiction": "Vaud, Switzerland",
+    "industry": "Watchmaking",
+    "core_activities": "Manufacture of luxury mechanical watches",
+    "legal_issues": "Movement patent dispute",
+    "key_persons": [
+      {
+        "name": "Alexandra Wehrli",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Ferenc Graf",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 17 years experience"
+      }
+    ],
+    "financial_status": "CHF 1076M revenue | VC-backed",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Swatch Group",
+      "Online counterfeiters",
+      "Former employee"
+    ]
+  },
+  {
+    "company_name": "Spörri Pharmaceuticals GmbH",
+    "jurisdiction": "Zürich, Switzerland",
+    "industry": "Pharmaceuticals",
+    "core_activities": "Development of biologic drugs",
+    "legal_issues": "EMA compliance",
+    "key_persons": [
+      {
+        "name": "Ferdinand Zehnder",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Christina Frei",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 15 years experience"
+      }
+    ],
+    "financial_status": "CHF 782M revenue | Strong liquidity",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Roche",
+      "Novartis",
+      "EU regulators"
+    ]
+  },
+  {
+    "company_name": "Zehnder Luxury Goods AG",
+    "jurisdiction": "Vaud, Switzerland",
+    "industry": "Luxury Goods",
+    "core_activities": "Trading of luxury goods",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Elsbeth Baur",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-UBS"
+      },
+      {
+        "name": "Muhammad Bucher",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 13 years experience"
+      }
+    ],
+    "financial_status": "CHF 3944M revenue | Strong liquidity",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Studer Space Technology SA",
+    "jurisdiction": "Zürich, Switzerland",
+    "industry": "Space Technology",
+    "core_activities": "Production of space technology",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Ruth Eugster",
+        "role": "CEO",
+        "background": "HSG St. Gallen graduate, ex-Roche"
+      },
+      {
+        "name": "Margareta Hirt",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 18 years experience"
+      }
+    ],
+    "financial_status": "CHF 4900M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Leunberger Machine Tools Sàrl",
+    "jurisdiction": "Basel-Stadt, Switzerland",
+    "industry": "Machine Tools",
+    "core_activities": "Production of machine tools",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Damir Lehmann",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-Roche"
+      },
+      {
+        "name": "Dietrich Erni",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 9 years experience"
+      }
+    ],
+    "financial_status": "CHF 3016M revenue | Strong liquidity",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Winkler Private Security GmbH",
+    "jurisdiction": "Zürich, Switzerland",
+    "industry": "Private Security",
+    "core_activities": "Research of private security",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Jonas Weibel",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-Swatch"
+      },
+      {
+        "name": "Marc Walter",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 11 years experience"
+      }
+    ],
+    "financial_status": "CHF 4692M revenue | VC-backed",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Flückiger Public Transport GmbH",
+    "jurisdiction": "Valais, Switzerland",
+    "industry": "Public Transport",
+    "core_activities": "Trading of public transport",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Ernst Widmer",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Swatch"
+      },
+      {
+        "name": "Marielle Beck",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 10 years experience"
+      }
+    ],
+    "financial_status": "CHF 3976M revenue | VC-backed",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Isler Private Banking SA",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "Private Banking",
+    "core_activities": "Discretionary asset management for UHNWIs",
+    "legal_issues": "AML investigation",
+    "key_persons": [
+      {
+        "name": "Marc Maurer",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Dietmar Stauffer",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 19 years experience"
+      }
+    ],
+    "financial_status": "CHF 683M revenue | Highly leveraged",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "FINMA",
+      "US Department of Justice",
+      "Client spouse"
+    ]
+  },
+  {
+    "company_name": "Haas Public Transport SA",
+    "jurisdiction": "Geneva, Switzerland",
+    "industry": "Public Transport",
+    "core_activities": "Production of public transport",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Valentina Lang",
+        "role": "Managing Director",
+        "background": "HSG St. Gallen graduate, ex-UBS"
+      },
+      {
+        "name": "Prisca Lüthi",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 18 years experience"
+      }
+    ],
+    "financial_status": "CHF 988M revenue | Strong liquidity",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Mäder Insurance SA",
+    "jurisdiction": "Vaud, Switzerland",
+    "industry": "Insurance",
+    "core_activities": "Trading of insurance",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Bojan Lanz",
+        "role": "CEO",
+        "background": "HSG St. Gallen graduate, ex-Swatch"
+      },
+      {
+        "name": "Dietrich Burri",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 14 years experience"
+      }
+    ],
+    "financial_status": "CHF 2075M revenue | Strong liquidity",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Blum Wealth Management GmbH",
+    "jurisdiction": "Zug, Switzerland",
+    "industry": "Wealth Management",
+    "core_activities": "Research of wealth management",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Viviane Geiger",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-Roche"
+      },
+      {
+        "name": "Gisela Sigrist",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 8 years experience"
+      }
+    ],
+    "financial_status": "CHF 2176M revenue | Strong liquidity",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Bader High-End Hospitality SA",
+    "jurisdiction": "Zug, Switzerland",
+    "industry": "High-End Hospitality",
+    "core_activities": "Luxury alpine resorts management",
+    "legal_issues": "Celebrity privacy",
+    "key_persons": [
+      {
+        "name": "Rodolfo Suter",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Jennifer Peter",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 10 years experience"
+      }
+    ],
+    "financial_status": "CHF 440M revenue | VC-backed",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Local commune",
+      "Saudi royal family",
+      "Former chef"
+    ]
+  },
+  {
+    "company_name": "Fuchs Luxury Goods SA",
+    "jurisdiction": "Geneva, Switzerland",
+    "industry": "Luxury Goods",
+    "core_activities": "Research of luxury goods",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Pavel Rüegg",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Sami Lüscher",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 10 years experience"
+      }
+    ],
+    "financial_status": "CHF 2594M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Schürch International Diplomacy SA",
+    "jurisdiction": "Zug, Switzerland",
+    "industry": "International Diplomacy",
+    "core_activities": "Research of international diplomacy",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Mathis Merz",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Emre Schäfer",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 11 years experience"
+      }
+    ],
+    "financial_status": "CHF 2091M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Weibel AI Sàrl",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "AI/Machine Learning",
+    "core_activities": "Production of ai/machine learning",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Nicoletta Bauer",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Sónia Forster",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 14 years experience"
+      }
+    ],
+    "financial_status": "CHF 4424M revenue | VC-backed",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Ott Neobanking AG",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "Neobanking",
+    "core_activities": "Production of neobanking",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "João Beck",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-Swatch"
+      },
+      {
+        "name": "Artur Wüthrich",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 5 years experience"
+      }
+    ],
+    "financial_status": "CHF 889M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Senn Horology Supplies AG",
+    "jurisdiction": "Lucerne, Switzerland",
+    "industry": "Horology Supplies",
+    "core_activities": "Trading of horology supplies",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Andrin Suter",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-UBS"
+      },
+      {
+        "name": "Kamil Suter",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 18 years experience"
+      }
+    ],
+    "financial_status": "CHF 1559M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Hofstetter Private Banking AG",
+    "jurisdiction": "Zürich, Switzerland",
+    "industry": "Private Banking",
+    "core_activities": "Discretionary asset management for UHNWIs",
+    "legal_issues": "AML investigation",
+    "key_persons": [
+      {
+        "name": "Fanny Lustenberger",
+        "role": "CEO",
+        "background": "HSG St. Gallen graduate, ex-Roche"
+      },
+      {
+        "name": "Thea Schärer",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 12 years experience"
+      }
+    ],
+    "financial_status": "CHF 469M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "FINMA",
+      "US Department of Justice",
+      "Client spouse"
+    ]
+  },
+  {
+    "company_name": "Fischer Reinsurance Sàrl",
+    "jurisdiction": "Geneva, Switzerland",
+    "industry": "Reinsurance",
+    "core_activities": "Production of reinsurance",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Lorena Gasser",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-Roche"
+      },
+      {
+        "name": "Vanesa Kälin",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 18 years experience"
+      }
+    ],
+    "financial_status": "CHF 859M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Thommen Private Security SA",
+    "jurisdiction": "Zug, Switzerland",
+    "industry": "Private Security",
+    "core_activities": "Trading of private security",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Dragana Widmer",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-UBS"
+      },
+      {
+        "name": "Lotti Egger",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 19 years experience"
+      }
+    ],
+    "financial_status": "CHF 4477M revenue | Highly leveraged",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Häfliger Pharmaceuticals AG",
+    "jurisdiction": "Geneva, Switzerland",
+    "industry": "Pharmaceuticals",
+    "core_activities": "Development of biologic drugs",
+    "legal_issues": "EMA compliance",
+    "key_persons": [
+      {
+        "name": "Fred Frey",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-UBS"
+      },
+      {
+        "name": "Lucio Stucki",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 8 years experience"
+      }
+    ],
+    "financial_status": "CHF 2683M revenue | VC-backed",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Roche",
+      "Novartis",
+      "EU regulators"
+    ]
+  },
+  {
+    "company_name": "Albrecht Reinsurance Sàrl",
+    "jurisdiction": "Lucerne, Switzerland",
+    "industry": "Reinsurance",
+    "core_activities": "Production of reinsurance",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Amira Beck",
+        "role": "Managing Director",
+        "background": "HSG St. Gallen graduate, ex-Roche"
+      },
+      {
+        "name": "Pirmin Steiner",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 10 years experience"
+      }
+    ],
+    "financial_status": "CHF 4712M revenue | VC-backed",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Lehmann Quantum Computing SA",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "Quantum Computing",
+    "core_activities": "Research of quantum computing",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Romano Gfeller",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Aurelia Stocker",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 18 years experience"
+      }
+    ],
+    "financial_status": "CHF 4706M revenue | Highly leveraged",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Betschart Watchmaking AG",
+    "jurisdiction": "Vaud, Switzerland",
+    "industry": "Watchmaking",
+    "core_activities": "Manufacture of luxury mechanical watches",
+    "legal_issues": "Movement patent dispute",
+    "key_persons": [
+      {
+        "name": "Samanta Wirz",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-UBS"
+      },
+      {
+        "name": "Ajan Rey",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 18 years experience"
+      }
+    ],
+    "financial_status": "CHF 2948M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Swatch Group",
+      "Online counterfeiters",
+      "Former employee"
+    ]
+  },
+  {
+    "company_name": "Erni Watchmaking GmbH",
+    "jurisdiction": "Vaud, Switzerland",
+    "industry": "Watchmaking",
+    "core_activities": "Manufacture of luxury mechanical watches",
+    "legal_issues": "Movement patent dispute",
+    "key_persons": [
+      {
+        "name": "Selim Iten",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-Swatch"
+      },
+      {
+        "name": "Neil Christen",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 5 years experience"
+      }
+    ],
+    "financial_status": "CHF 3241M revenue | VC-backed",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Swatch Group",
+      "Online counterfeiters",
+      "Former employee"
+    ]
+  },
+  {
+    "company_name": "Scherrer Pharma Logistics Sàrl",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "Pharma Logistics",
+    "core_activities": "Research of pharma logistics",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Ewa Burri",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-UBS"
+      },
+      {
+        "name": "Bianca Meister",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 16 years experience"
+      }
+    ],
+    "financial_status": "CHF 279M revenue | VC-backed",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Eugster Carbon Capture GmbH",
+    "jurisdiction": "Zug, Switzerland",
+    "industry": "Carbon Capture",
+    "core_activities": "Research of carbon capture",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Bettina Bucher",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-Swatch"
+      },
+      {
+        "name": "Greta Hürlimann",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 19 years experience"
+      }
+    ],
+    "financial_status": "CHF 1564M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Kälin Commodities Trading AG",
+    "jurisdiction": "St. Gallen, Switzerland",
+    "industry": "Commodities Trading",
+    "core_activities": "Trading of commodities trading",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Ramona Lüthi",
+        "role": "Managing Director",
+        "background": "HSG St. Gallen graduate, ex-Swatch"
+      },
+      {
+        "name": "Susann Stauffer",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 15 years experience"
+      }
+    ],
+    "financial_status": "CHF 3953M revenue | VC-backed",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Wenger Precision Engineering AG",
+    "jurisdiction": "St. Gallen, Switzerland",
+    "industry": "Precision Engineering",
+    "core_activities": "Trading of precision engineering",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Theresa Michel",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-Swatch"
+      },
+      {
+        "name": "Marcus Jäggi",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 17 years experience"
+      }
+    ],
+    "financial_status": "CHF 2361M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Blaser Biotechnology AG",
+    "jurisdiction": "Zug, Switzerland",
+    "industry": "Biotechnology",
+    "core_activities": "Research of biotechnology",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Jürg Bucher",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-Roche"
+      },
+      {
+        "name": "Hasan Ferrari",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 10 years experience"
+      }
+    ],
+    "financial_status": "CHF 3633M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Sigrist Hydropower SA",
+    "jurisdiction": "Zug, Switzerland",
+    "industry": "Hydropower",
+    "core_activities": "Research of hydropower",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Erna Schmidt",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-Roche"
+      },
+      {
+        "name": "Aurel Wolf",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 9 years experience"
+      }
+    ],
+    "financial_status": "CHF 2084M revenue | Strong liquidity",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Hartmann Precision Engineering Sàrl",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "Precision Engineering",
+    "core_activities": "Production of precision engineering",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Maëlle Wegmann",
+        "role": "Managing Director",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Lily Kern",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 18 years experience"
+      }
+    ],
+    "financial_status": "CHF 298M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Scherrer Nuclear Energy GmbH",
+    "jurisdiction": "Schwyz, Switzerland",
+    "industry": "Nuclear Energy",
+    "core_activities": "Trading of nuclear energy",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "René Hoffmann",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Guido Sutter",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 9 years experience"
+      }
+    ],
+    "financial_status": "CHF 3627M revenue | VC-backed",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Maier Microtechnology SA",
+    "jurisdiction": "St. Gallen, Switzerland",
+    "industry": "Microtechnology",
+    "core_activities": "Trading of microtechnology",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Christoph Kunz",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Jerome Bachmann",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 9 years experience"
+      }
+    ],
+    "financial_status": "CHF 365M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Schlatter Luxury Goods SA",
+    "jurisdiction": "Ticino, Switzerland",
+    "industry": "Luxury Goods",
+    "core_activities": "Research of luxury goods",
+    "legal_issues": "Contract dispute",
+    "key_persons": [
+      {
+        "name": "Lean Aebi",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-UBS"
+      },
+      {
+        "name": "Ema Hofstetter",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 9 years experience"
+      }
+    ],
+    "financial_status": "CHF 1433M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Maurer Quantum Computing GmbH",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "Quantum Computing",
+    "core_activities": "Trading of quantum computing",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Gerda Hirt",
+        "role": "Managing Director",
+        "background": "EPFL graduate, ex-UBS"
+      },
+      {
+        "name": "István Baumgartner",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 20 years experience"
+      }
+    ],
+    "financial_status": "CHF 4162M revenue | VC-backed",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Eugster Horology Supplies SA",
+    "jurisdiction": "Bern, Switzerland",
+    "industry": "Horology Supplies",
+    "core_activities": "Production of horology supplies",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Manon Blum",
+        "role": "CEO",
+        "background": "HSG St. Gallen graduate, ex-Roche"
+      },
+      {
+        "name": "Agnes Favre",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 6 years experience"
+      }
+    ],
+    "financial_status": "CHF 163M revenue | Highly leveraged",
+    "dispute_style": "Formal Swiss arbitration",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Kunz Hydropower Sàrl",
+    "jurisdiction": "Basel-Stadt, Switzerland",
+    "industry": "Hydropower",
+    "core_activities": "Research of hydropower",
+    "legal_issues": "Regulatory non-compliance",
+    "key_persons": [
+      {
+        "name": "Matilde Schenk",
+        "role": "CEO",
+        "background": "HSG St. Gallen graduate, ex-Roche"
+      },
+      {
+        "name": "Erion Erni",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 14 years experience"
+      }
+    ],
+    "financial_status": "CHF 2403M revenue | Highly leveraged",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Precise German/French documentation",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Ackermann Private Security Sàrl",
+    "jurisdiction": "Valais, Switzerland",
+    "industry": "Private Security",
+    "core_activities": "Research of private security",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Milos Steiger",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Swatch"
+      },
+      {
+        "name": "Odile Zimmermann",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 15 years experience"
+      }
+    ],
+    "financial_status": "CHF 4666M revenue | Strong liquidity",
+    "dispute_style": "Aggressive litigation",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Studer Nuclear Energy AG",
+    "jurisdiction": "Basel-Stadt, Switzerland",
+    "industry": "Nuclear Energy",
+    "core_activities": "Production of nuclear energy",
+    "legal_issues": "IP litigation",
+    "key_persons": [
+      {
+        "name": "Tristan Imhof",
+        "role": "CEO",
+        "background": "EPFL graduate, ex-Roche"
+      },
+      {
+        "name": "Georg Hofstetter",
+        "role": "Head Legal",
+        "background": "Admitted to Zurich bar, 19 years experience"
+      }
+    ],
+    "financial_status": "CHF 152M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Technical jargon-heavy",
+    "opposing_parties": [
+      "Competitor",
+      "Regulator",
+      "Business partner"
+    ]
+  },
+  {
+    "company_name": "Friedli Pharmaceuticals GmbH",
+    "jurisdiction": "Neuchâtel, Switzerland",
+    "industry": "Pharmaceuticals",
+    "core_activities": "Development of biologic drugs",
+    "legal_issues": "EMA compliance",
+    "key_persons": [
+      {
+        "name": "Kaltrina Meister",
+        "role": "CEO",
+        "background": "ETH Zürich graduate, ex-Roche"
+      },
+      {
+        "name": "Halil Bolliger",
+        "role": "Head Legal",
+        "background": "Admitted to Geneva bar, 16 years experience"
+      }
+    ],
+    "financial_status": "CHF 4244M revenue | Strong liquidity",
+    "dispute_style": "Confidential settlement-driven",
+    "communication_style": "Multilingual (DE/FR/EN/IT)",
+    "opposing_parties": [
+      "Roche",
+      "Novartis",
+      "EU regulators"
+    ]
+  }
+]

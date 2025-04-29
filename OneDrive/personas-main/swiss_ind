@@ -1,0 +1,122 @@
+import json
+import random
+from faker import Faker
+from datetime import date
+
+fake = Faker(['de_CH', 'fr_CH', 'it_CH'])  # Swiss locales
+
+# Swiss-specific data pools
+nationalities = ["Swiss", "Swiss-German", "Swiss-French", "Swiss-Italian", 
+                 "German", "French", "Italian", "Austrian", "Liechtensteiner"]
+
+occupations = [
+    "Banker (UBS/JP Morgan/LGT)",   "Associate", "Pharmaceutical Researcher", "Watchmaker",
+    "UN Diplomat", "Commodities Trader", "Ski Instructor", "Hotel Manager",
+    "Private Wealth Manager", "CERN Scientist", "International Lawyer", "Real Estate Agent", "Electrician", "Human Resources Agent", "Social Worker", "Teacher", "University Professor", "Construction Worker", "Civil Engineer", "Project manager", "Risk Analysts", "Cybersecurity Expert", "Software Developer", "Data Analyst", "Nurse", "Doctor" 
+]
+
+legal_issues = [
+    "Employment termination dispute", "Tenancy conflict",
+    "Inheritance dispute", "Contract breach", "Debt collection", 
+    "Personal injury claim", "Tax compliance issue"
+]
+
+def generate_swiss_individual():
+    birthdate = fake.date_of_birth(minimum_age=25, maximum_age=75)
+    age = date.today().year - birthdate.year
+    gender = random.choice(["Male", "Female"])
+    
+    return {
+        "full_name": fake.first_name() + " " + fake.last_name(),
+        "age": age,
+        "gender": gender,
+        "nationality": random.choice(nationalities),
+        "occupation": random.choice(occupations),
+        "background": generate_background(),
+        "personality_traits": generate_personality(),
+        "legal_issue_involved": random.choice(legal_issues),
+        "dispute_style": random.choice(["Formal", "Conciliatory", "Aggressive"]),
+        "financial_status": generate_financial_status(age),
+        "goals_in_dispute": random.choice([
+            "Financial compensation", 
+            "Reputation protection",
+            "Contract enforcement"
+        ]),
+        "communication_style": generate_communication_style(),
+        "dispute_context": generate_dispute_context()
+    }
+
+def generate_background():
+    return random.choice([
+        f"Educated at {random.choice(['ETH Zürich', 'University of Geneva', 'HSG St. Gallen'])}",
+        f"Former {random.choice(['UBS', 'Roche', 'Swatch'])} employee",
+        f"Born in {random.choice(['Zürich', 'Geneva', 'Lugano', 'Basel'])}",
+    ])
+
+def generate_personality():
+    traits = []
+    for _ in range(3):
+        traits.append(random.choice([
+            "Detail-oriented", "Emotional", "Pragmatic", 
+            "Stubborn", "Cooperative", "Litigious"
+        ]))
+    return traits
+
+def generate_financial_status(age):
+    if age > 60:
+        wealth = random.choice([
+            f"CHF {random.randint(1,10)}M pension assets",
+            "Substantial real estate holdings"
+        ])
+    else:
+        wealth = random.choice([
+            f"CHF {random.randint(100,500)}k annual salary",
+            "Moderate savings with mortgage"
+        ])
+    return f"{wealth} | {random.choice(['No debt', 'Some liabilities', 'Highly leveraged'])}"
+
+def generate_communication_style():
+    lang = random.choice([
+        "German-dominant", "French-preferring", "Italian-speaking",
+        "Fluent English", "Multilingual mix"
+    ])
+    style = random.choice([
+        "Formal written", "Direct verbal", "Emotional", "Technical"
+    ])
+    return f"{lang} | {style}"
+
+def generate_dispute_context():
+    issue = random.choice(legal_issues)
+    return {
+        "type": issue,
+        "opposing_party": random.choice([
+            "Former employer",
+            "Spouse",
+            "Landlord",
+            "Business partner",
+            "Government agency"
+        ]),
+        "facts": generate_facts(issue),
+        "preferred_resolution": random.choice([
+             "Full monetary compensation",
+             "Partial monetary compensation",
+             "Contract amendment",
+            "Court judgment"
+        ])
+    }
+
+def generate_facts(issue):
+    if "employment" in issue.lower():
+        return f"Dispute over {random.choice(['termination notice period', 'bonus payment', 'discrimination allegations'])}"
+    elif "divorce" in issue.lower():
+        return f"Conflict regarding {random.choice(['asset division', 'child custody', 'alimony payments'])}"
+    return f"Dispute concerning {random.choice(['contract terms', 'property damage', 'service quality'])}"
+
+# Generate 25 personas
+dataset = [generate_swiss_individual() for _ in range(100)]
+
+# Save to file
+with open("swiss_individual_personas.json", "w", encoding="utf-8") as f:
+    json.dump(dataset, f, indent=2, ensure_ascii=False)
+
+print("✅ Generated 100 Swiss individual personas (swiss_individual_personas.json)")

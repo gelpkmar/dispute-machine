@@ -1,0 +1,109 @@
+import json
+import random
+from faker import Faker
+
+fake = Faker('de_CH')  # Swiss-German locale for authentic names
+
+# Expanded Swiss industry list (40+ sectors)
+industries = [
+    # Traditional
+    "Watchmaking", "Private Banking", "Pharmaceuticals", "Chocolate Manufacturing",
+    "Precision Engineering", "Insurance", "Commodities Trading", "Dairy Products",
+    # Tech & Innovation
+    "Blockchain/Crypto", "Biotechnology", "Medtech", "Clean Energy", 
+    "AI/Machine Learning", "Quantum Computing", "Cybersecurity",
+    # Industrial
+    "Chemical Manufacturing", "Machine Tools", "Textile Machinery", "Rail Technology",
+    # Consumer & Luxury
+    "Luxury Goods", "High-End Hospitality", "Ski Equipment", "Wine Production",
+    # Services
+    "Wealth Management", "Reinsurance", "Commercial Arbitration", "Pharma Logistics",
+    # Public Sector
+    "Nuclear Energy", "Public Transport", "Hydropower", "International Diplomacy",
+    # Emerging
+    "Space Technology", "Agritech", "Neobanking", "Carbon Capture",
+    # Niche
+    "Private Security", "Fine Chemicals", "Microtechnology", "Horology Supplies"
+]
+
+jurisdictions = [
+    "Zürich", "Geneva", "Basel-Stadt", "Vaud", "Bern", "Ticino",
+    "St. Gallen", "Lucerne", "Valais", "Neuchâtel", "Zug", "Schwyz"
+]
+
+# Industry-specific details
+details = {
+    "Watchmaking": {
+        "core": "Manufacture of luxury mechanical watches",
+        "legal": random.choice(["Trademark infringement", "Movement patent dispute", "Counterfeiting"]),
+        "opposing_parties": ["Swatch Group", "Online counterfeiters", "Former employee"]
+    },
+    "Private Banking": {
+        "core": "Discretionary asset management for UHNWIs",
+        "legal": random.choice(["AML investigation", "Tax compliance", "Breach of fiduciary duty"]),
+        "opposing_parties": ["FINMA", "US Department of Justice", "Client spouse"]
+    },
+    "Pharmaceuticals": {
+        "core": "Development of biologic drugs",
+        "legal": random.choice(["Patent cliff", "Clinical trial liability", "EMA compliance"]),
+        "opposing_parties": ["Roche", "Novartis", "EU regulators"]
+    },
+    # Add more industries as needed...
+    "High-End Hospitality": {
+        "core": "Luxury alpine resorts management",
+        "legal": random.choice(["Land use dispute", "Celebrity privacy", "Michelin star defamation"]),
+        "opposing_parties": ["Local commune", "Saudi royal family", "Former chef"]
+    }
+}
+
+def generate_swiss_company():
+    company_type = random.choice(["AG", "GmbH", "SA", "Sàrl"])
+    industry = random.choice(industries)
+    
+    # Get industry-specific details or use defaults
+    profile = details.get(industry, {
+        "core": f"{random.choice(['Research', 'Production', 'Trading'])} of {industry.lower()}",
+        "legal": random.choice(["Contract dispute", "IP litigation", "Regulatory non-compliance"]),
+        "opposing_parties": ["Competitor", "Regulator", "Business partner"]
+    })
+    
+    return {
+        "company_name": f"{fake.last_name()} {industry.split('/')[0]} {company_type}",
+        "jurisdiction": f"{random.choice(jurisdictions)}, Switzerland",
+        "industry": industry,
+        "core_activities": profile["core"],
+        "legal_issues": profile["legal"],
+        "key_persons": [
+            {
+                "name": fake.first_name() + " " + fake.last_name(),
+                "role": random.choice(["CEO", "Managing Director"]),
+                "background": f"{random.choice(['ETH Zürich', 'HSG St. Gallen', 'EPFL'])} graduate, ex-{random.choice(['UBS', 'Roche', 'Swatch'])}"
+            },
+            {
+                "name": fake.first_name() + " " + fake.last_name(),
+                "role": "Head Legal",
+                "background": f"Admitted to {random.choice(['Zurich', 'Geneva'])} bar, {random.randint(5,20)} years experience"
+            }
+        ],
+        "financial_status": f"CHF {random.randint(10,5000)}M revenue | {random.choice(['Strong liquidity', 'Highly leveraged', 'VC-backed'])}",
+        "dispute_style": random.choice([
+            "Formal Swiss arbitration",
+            "Confidential settlement-driven",
+            "Aggressive litigation"
+        ]),
+        "communication_style": random.choice([
+            "Precise German/French documentation",
+            "Multilingual (DE/FR/EN/IT)",
+            "Technical jargon-heavy"
+        ]),
+        "opposing_parties": profile["opposing_parties"]
+    }
+
+# Generate 50 companies
+dataset = [generate_swiss_company() for _ in range(50)]
+
+# Save to file
+with open("swiss_companies_extended.json", "w", encoding='utf-8') as f:
+    json.dump(dataset, f, indent=2, ensure_ascii=False)
+
+print("✅ Generated 100 Swiss companies across 40+ industries")
