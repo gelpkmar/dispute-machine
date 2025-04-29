@@ -1,7 +1,10 @@
 # python run_dispute.py --save_qa --rounds 3 --show_sources
+# python run_dispute.py --save_qa --rounds 5 --show_sources
+# git clone --branch ilias git@github.com:gelpkmar/dispute-machine.git
 # history -c && history -w
+# import ingest, run_localGPT, utils
+import utils
 import gc  # Garbage Collector interface
-import ingest, run_localGPT, utils
 from agent import Agent
 
 import os
