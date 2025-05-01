@@ -13,7 +13,7 @@ nltk.download('punkt')
 nltk.download('tiger')
 
 # Configuration import
-from crazy import SOURCE_DIRECTORY, PERSIST_DIRECTORY, INGEST_THREADS, CHROMA_SETTINGS, DOCUMENT_MAP, EMBEDDING_MODEL_NAME
+from main import SOURCE_DIRECTORY, PERSIST_DIRECTORY, INGEST_THREADS, CHROMA_SETTINGS, DOCUMENT_MAP, EMBEDDING_MODEL_NAME
 
 
 def get_embeddings(device_type="cuda"):
