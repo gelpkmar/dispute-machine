@@ -24,14 +24,14 @@ from langchain_community.vectorstores import Chroma
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 
-# print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
-# print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
-# print(f"Current device: {torch.cuda.current_device()}")
+print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
+print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
+print(f"Current device: {torch.cuda.current_device()}")
 
 
 # Configuration
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/SOURCE_DOCUMENTS"
+SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/data"
 PERSIST_DIRECTORY = f"{ROOT_DIRECTORY}/DB"
 MODELS_PATH = "./models"
 INGEST_THREADS = os.cpu_count() or 8
@@ -40,7 +40,7 @@ MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE  # int(CONTEXT_WINDOW_SIZE/4)
 N_GPU_LAYERS = 35  # How many LLM layers to offload to GPU
 N_BATCH = 512
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-# SCRIPT_PATH = "/Users/thealteredmg/kDrive_altered/Studium_UZH/c_CURRENT/AIL_25/deliverable/dispute-machine/data/legal_script_txt.txt"
+SCRIPT_PATH = "/Users/thealteredmg/kDrive_altered/Studium_UZH/c_CURRENT/AIL_25/deliverable/dispute-machine/data/legal_script_txt.txt"
 
 # Define the Chroma settings
 CHROMA_SETTINGS = Settings(
@@ -102,14 +102,6 @@ def load_quantized_model_gguf_ggml(model_id, model_basename, device_type, loggin
         if "ggml" in model_basename:
             logging.info("If you were using GGML model, LLAMA-CPP Dropped Support, Use GGUF Instead")
         return None
-
-
-# def load_quantized_model_qptq(model_id, model_basename, device_type, logging):
-#     """
-#     This function is disabled since it requires auto_gptq
-#     """
-#     logging.warning("GPTQ quantized models are not supported in this version. Please use GGUF models instead.")
-#     return None, None
 
 
 def load_full_model(model_id, model_basename, device_type, logging):
@@ -204,7 +196,6 @@ def save_dispute_history_to_json(agent_x_state, agent_y_state, simulation_round)
     print(f"✅ Dispute history saved to {filename}")
 
 
-
 def get_embeddings(device_type="cuda"):
     if EMBEDDING_MODEL_NAME == "hkunlp/instructor-large":
         # Special handling for instructor model
@@ -232,12 +223,8 @@ def get_embeddings(device_type="cuda"):
         )
     
 
-
-
 ### LocalGPT
-
 system_prompt = """ """
-
 
 def get_prompt_template(system_prompt=system_prompt, promptTemplate_type=None, history=False):
     if promptTemplate_type == "llama":
@@ -328,13 +315,8 @@ def get_prompt_template(system_prompt=system_prompt, promptTemplate_type=None, h
             prompt = PromptTemplate(input_variables=["context", "question"], template=prompt_template)
 
     memory = ConversationBufferMemory(input_key="question", memory_key="history")
-
     print(f"Here is the prompt used: {prompt}")
-
-    return (
-        prompt,
-        memory,
-    )
+    return (prompt,memory)
 
 
 # In the load_model function, modify the quantization checks:
