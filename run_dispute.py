@@ -104,7 +104,7 @@ agent_state_x = {
     'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
-        'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest die entstandenen Schäden so klein wie möglich halten..', 
+        'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest die entstandenen Schäden so klein wie möglich halten.', 
         'facts': 'Streit über Servicequalität',
         'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%.'
     },
@@ -184,15 +184,23 @@ agent_state_y = {
     help="whether to save Q&A pairs to a CSV file (Default is False)",
 )
 @click.option(
-    "--rounds", 
+    "--rounds",
+    "-r", 
     default=3,  # Default number of rounds
     type=int,   # Ensure it expects an integer value
     help="Number of rounds for the discussion"
 )
 
+@click.option(
+    "--number_of_simulations",
+    "-n", 
+    default=1,  # Default number of rounds
+    type=int,   # Ensure it expects an integer value
+    help="Number of simulations"
+)
 
-def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
-    for simulation_round in range(1, 10):
+def main(device_type, show_sources, use_history, model_type, save_qa, rounds, number_of_simulations):
+    for simulation_round in range(1, number_of_simulations + 1):
         logging.info(f"Simulation Round {simulation_round}:")
         logging.info(f"Running on: {device_type}")
         logging.info(f"Display Source Documents set to: {show_sources}")
@@ -206,21 +214,21 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds):
 
             agent_X = Agent(
                 name="X", 
-                embeddings_dir="../data/embeddings_X",
+                embeddings_dir="./data/embeddings_X",
                 device_type="cuda",
                 use_history=False, 
                 model_type=model_type, 
-                persist_dir="../data/persist_X", 
+                persist_dir="./data/persist_X", 
                 promptTemplate_type=model_type, 
                 agent_state=agent_state_x
             )
             agent_Y = Agent(
                 name="Y", 
-                embeddings_dir="../data/embeddings_Y",
+                embeddings_dir="./data/embeddings_Y",
                 device_type="cuda",
                 use_history=False, 
                 model_type=model_type, 
-                persist_dir="../data/persist_Y", 
+                persist_dir="./data/persist_Y", 
                 promptTemplate_type=model_type,
                 agent_state=agent_state_y
             )
