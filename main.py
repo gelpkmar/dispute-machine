@@ -1,4 +1,4 @@
-# python crazy.py --save_qa --show_sources
+# python main.py --save_qa --show_sources
 # python run_dispute.py --save_qa --rounds 5 --show_sources
 # git clone --branch ilias git@github.com:gelpkmar/dispute-machine.git
 # history -c && history -w
@@ -17,9 +17,14 @@ from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, Un
 from langchain.chains import RetrievalQA
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler  # for streaming response
 from langchain.callbacks.manager import CallbackManager
-from langchain.embeddings import HuggingFaceBgeEmbeddings, HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
-from langchain_community.embeddings import HuggingFaceInstructEmbeddings, HuggingFaceEmbeddings
-from langchain_community.embeddings.huggingface import HuggingFaceBgeEmbeddings
+# from langchain.embeddings import HuggingFaceBgeEmbeddings, HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
+# from langchain_community.embeddings import HuggingFaceInstructEmbeddings, HuggingFaceEmbeddings
+# from langchain_community.embeddings.huggingface import HuggingFaceBgeEmbeddings
+from langchain_community.embeddings import (
+    HuggingFaceEmbeddings,
+    HuggingFaceBgeEmbeddings,
+    HuggingFaceInstructEmbeddings
+)
 from langchain_community.vectorstores import Chroma
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
@@ -27,7 +32,6 @@ from langchain.prompts import PromptTemplate
 print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
 print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
 print(f"Current device: {torch.cuda.current_device()}")
-
 
 # Configuration
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
@@ -46,7 +50,9 @@ SCRIPT_PATH = "/Users/thealteredmg/kDrive_altered/Studium_UZH/c_CURRENT/AIL_25/d
 CHROMA_SETTINGS = Settings(
     anonymized_telemetry=False,
     is_persistent=True,
-)
+    allow_reset=True,
+    # chroma_db_impl="duckdb+parquet",
+    )
 
 DOCUMENT_MAP = {
     ".html": UnstructuredHTMLLoader,
@@ -197,8 +203,23 @@ def save_dispute_history_to_json(agent_x_state, agent_y_state, simulation_round)
 
 
 def get_embeddings(device_type="cuda"):
-    if EMBEDDING_MODEL_NAME == "hkunlp/instructor-large":
-        # Special handling for instructor model
+    # Handle specific case for DiscoLM (or similar model)
+    if EMBEDDING_MODEL_NAME == "TheBloke/DiscoLM_German_7b_v1-GGUF":
+        # Load the GGUF model, specify model type and device
+        # Using HuggingFaceEmbeddings for standard use
+        model_kwargs = {"device": device_type}
+        encode_kwargs = {"normalize_embeddings": True}
+
+        # If you're working with a specific model handler (e.g., GGUF API), 
+        # you might need to use a more specialized method here.
+        return HuggingFaceEmbeddings(
+            model_name=EMBEDDING_MODEL_NAME,
+            model_kwargs=model_kwargs,
+            encode_kwargs=encode_kwargs
+        )
+    
+    # Fallback cases for other models (Instructor, BGE, etc.)
+    elif EMBEDDING_MODEL_NAME == "hkunlp/instructor-large":
         model_kwargs = {"device": device_type}
         encode_kwargs = {"normalize_embeddings": True}
         return HuggingFaceInstructEmbeddings(
@@ -216,6 +237,7 @@ def get_embeddings(device_type="cuda"):
             query_instruction="Represent this sentence for searching relevant passages: "
         )
     else:
+        # Default fallback for other models
         return HuggingFaceEmbeddings(
             model_name=EMBEDDING_MODEL_NAME,
             model_kwargs={"device": device_type},
@@ -224,9 +246,15 @@ def get_embeddings(device_type="cuda"):
     
 
 ### LocalGPT
-system_prompt = """ """
+DEFAULT_SYSTEM_PROMPT = """\
+Du bist ein hilfreicher, sachlicher und präziser deutscher Assistent. \
+Nutze den bereitgestellten Kontext, um Fragen möglichst vollständig und verständlich zu beantworten. \
+Wenn du keine Antwort weißt, gib dies ehrlich zu.
+"""
 
-def get_prompt_template(system_prompt=system_prompt, promptTemplate_type=None, history=False):
+def get_prompt_template(system_prompt=DEFAULT_SYSTEM_PROMPT, promptTemplate_type=None, history=False):
+    prompt = None  # Initialize prompt to avoid unbound local variable error
+
     if promptTemplate_type == "llama":
         B_INST, E_INST = "[INST]", "[/INST]"
         B_SYS, E_SYS = "<<SYS>>\n", "\n<</SYS>>\n\n"
@@ -292,7 +320,7 @@ def get_prompt_template(system_prompt=system_prompt, promptTemplate_type=None, h
             )
             prompt = PromptTemplate(input_variables=["context", "question"], template=prompt_template)
     else:
-        # change this based on the model you have selected.
+        # Default prompt when no template type matches
         if history:
             prompt_template = (
                 system_prompt
@@ -315,8 +343,8 @@ def get_prompt_template(system_prompt=system_prompt, promptTemplate_type=None, h
             prompt = PromptTemplate(input_variables=["context", "question"], template=prompt_template)
 
     memory = ConversationBufferMemory(input_key="question", memory_key="history")
-    print(f"Here is the prompt used: {prompt}")
-    return (prompt,memory)
+    print(f"Here is the prompt used: {prompt}")  # For debugging, to see the generated prompt
+    return prompt, memory
 
 
 # In the load_model function, modify the quantization checks:
@@ -360,16 +388,16 @@ def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
     return local_llm
 
 
-
 def load_embeddings():
-    """Load HuggingFace Embeddings object onto Gaudi or CPU"""
+    """Load embeddings on appropriate device"""
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    logging.info(f"Loading embeddings on {device}")
     
-    logging.info("Loading embedding model on cpu")
-    embeddings = HuggingFaceEmbeddings(
-        model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": "cpu"}
+    return HuggingFaceEmbeddings(
+        model_name=EMBEDDING_MODEL_NAME,
+        model_kwargs={"device": device},
+        encode_kwargs={"normalize_embeddings": True}
     )
-    return embeddings
-
 
 def calculate_similarity(model, response, expected_answer):
     """Calculate similarity between response and expected answer using the model"""
@@ -383,45 +411,20 @@ def calculate_similarity(model, response, expected_answer):
     return similarity_score.item()
 
 def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemplate_type="llama"):
-    """
-    Initializes and returns a retrieval-based Question Answering (QA) pipeline.
 
-    This function sets up a QA system that retrieves relevant information using embeddings
-    from the HuggingFace library. It then answers questions based on the retrieved information.
-
-    Parameters:
-    - device_type (str): Specifies the type of device where the model will run, e.g., 'cpu', 'cuda', etc.
-    - use_history (bool): Flag to determine whether to use chat history or not.
-
-    Returns:
-    - RetrievalQA: An initialized retrieval-based QA system.
-
-    Notes:
-    - The function uses embeddings from the HuggingFace library, either instruction-based or regular.
-    - The Chroma class is used to load a vector store containing pre-computed embeddings.
-    - The retriever fetches relevant documents or data based on a query.
-    - The prompt and memory, obtained from the `get_prompt_template` function, might be used in the QA system.
-    - The model is loaded onto the specified device using its ID and basename.
-    - The QA system retrieves relevant documents using the retriever and then answers questions based on those documents.
-    """
-
-    """
-    (1) Chooses an appropriate langchain library based on the enbedding model name.  Matching code is contained within ingest.py.
-
-    (2) Provides additional arguments for instructor and BGE models to improve results, pursuant to the instructions contained on
-    their respective huggingface repository, project page or github repository.
-    """
     embeddings = load_embeddings()
     # if device_type == "hpu":
     #     embeddings = load_embeddings()
     # else:
         # embeddings = get_embeddings(device_type)
 
+    # Add verification
+    test_embedding = embeddings.embed_query("Test embedding")
+    logging.info(f"Embedding dimension: {len(test_embedding)}")
     logging.info(f"Loaded embeddings from {EMBEDDING_MODEL_NAME}")
 
     # load the vectorstore
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
-    retriever = db.as_retriever()
 
     # get the prompt template and memory if set by the user.
     prompt, memory = get_prompt_template(promptTemplate_type=promptTemplate_type, history=use_history)
@@ -433,7 +436,8 @@ def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemp
         qa = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
-            retriever=retriever,
+            # retriever=db.as_retriever(),
+            retriever=db.as_retriever(search_kwargs={"k": 3}),
             return_source_documents=True,  # verbose=True,
             callbacks=callback_manager,
             chain_type_kwargs={"prompt": prompt, "memory": memory},
@@ -442,7 +446,8 @@ def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemp
         qa = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
-            retriever=retriever,
+            # retriever=db.as_retriever(),
+            retriever=db.as_retriever(search_kwargs={"k": 3}),
             return_source_documents=True,  # verbose=True,
             callbacks=callback_manager,
             chain_type_kwargs={
@@ -466,8 +471,8 @@ class Agent:
         self.qa = retrieval_qa_pipline(device_type, use_history, self.persist_dir, promptTemplate_type=model_type)
 
     def ask(self, query):
-        complete_query = query
-        res = self.qa(complete_query)
+        res = self.qa({"query": query})  # Explicit dict format
+        print(f"Retrieved {len(res['source_documents'])} sources")  # Debug
         return res
 
 def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
@@ -624,6 +629,15 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
             )
 
             current_context = ""
+            
+            # Add this test to your main script
+            embeddings = load_embeddings()
+            test_text = "Test der Einbettungsfunktion"
+            embedding = embeddings.embed_query(test_text)
+            print(f"Embedding for '{test_text}': {embedding[:5]}... (dim={len(embedding)})")
+            # Embedding for 'Test der Einbettungsfunktion': [0.001862219301983714, -0.014828849583864212, -0.006438206881284714, -0.0353582426905632, -0.03550660237669945]... (dim=768)
+
+            # ✅ Start the simulation rounds
             for round_num in range(1, rounds + 1): 
                 logging.info(f"Simulation {simulation_round}, Round {round_num}:")
 

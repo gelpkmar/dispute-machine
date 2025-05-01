@@ -103,5 +103,86 @@ class TestGermanRetrieval(unittest.TestCase):
             self.assertTrue(antwort.strip(), "Die Antwort sollte nicht leer sein")
             self.assertGreater(len(antwort.split()), 3, "Die Antwort sollte ausführlich sein")
 
+    def test_db_document_count(self):
+        """Stellt sicher, dass die Datenbank nicht leer ist"""
+        db = Chroma(
+            persist_directory=PERSIST_DIRECTORY,
+            embedding_function=self.embeddings,
+            client_settings=CHROMA_SETTINGS
+        )
+        count = db._collection.count()
+        print(f"Anzahl der Dokumente in der DB: {count}")
+        self.assertGreater(count, 0, "Die Datenbank sollte mindestens ein Dokument enthalten")
+
+    def test_no_relevant_documents(self):
+        """Testet, wie das System auf irrelevante Anfragen reagiert"""
+        db = Chroma(
+            persist_directory=PERSIST_DIRECTORY,
+            embedding_function=self.embeddings,
+            client_settings=CHROMA_SETTINGS
+        )
+        query = "Was ist die Hauptstadt von Narnia?"  # Intentionally irrelevant
+        docs = db.similarity_search(query, k=3)
+        print(f"\nIrrelevante Anfrage: '{query}' - Gefundene Dokumente: {len(docs)}")
+        self.assertIsInstance(docs, list)
+
+    def test_document_order_by_similarity(self):
+        """Prüft, ob Dokumente nach Ähnlichkeit sortiert sind"""
+        db = Chroma(
+            persist_directory=PERSIST_DIRECTORY,
+            embedding_function=self.embeddings,
+            client_settings=CHROMA_SETTINGS
+        )
+        results = db.similarity_search_with_score("Preisnachlass", k=3)
+        print("\nScores für 'Preisnachlass':", [score for _, score in results])
+        scores = [score for _, score in results]
+        self.assertTrue(all(scores[i] <= scores[i+1] for i in range(len(scores)-1)), "Scores sind nicht sortiert")
+
+    def test_retriever_k_variations(self):
+        """Testet verschiedene Werte für k bei der Suche"""
+        db = Chroma(
+            persist_directory=PERSIST_DIRECTORY,
+            embedding_function=self.embeddings,
+            client_settings=CHROMA_SETTINGS
+        )
+        for k in [1, 5]:
+            docs = db.similarity_search("Preisnachlass", k=k)
+            print(f"\nk = {k}: {len(docs)} Dokumente gefunden")
+            self.assertLessEqual(len(docs), k)
+
+    def test_qa_repeatability(self):
+        """Stellt sicher, dass QA bei wiederholten Anfragen konsistent antwortet"""
+        db = Chroma(
+            persist_directory=PERSIST_DIRECTORY,
+            embedding_function=self.embeddings,
+            client_settings=CHROMA_SETTINGS
+        )
+        de_prompt = PromptTemplate(
+            input_variables=["context", "question"],
+            template="""
+            Beantworte die folgende Frage auf Deutsch basierend auf dem gegebenen Kontext.
+            Kontext: {context}
+            Frage: {question}
+            Antwort:
+            """
+        )
+        qa = RetrievalQA.from_chain_type(
+            llm=self.llm,
+            chain_type="stuff",
+            retriever=db.as_retriever(search_kwargs={"k": 3}),
+            return_source_documents=True,
+            chain_type_kwargs={"prompt": de_prompt}
+        )
+        
+        frage = "Welche Kompensation wird bei Verspätung angeboten?"
+        result1 = qa({"query": frage})["result"].strip()
+        result2 = qa({"query": frage})["result"].strip()
+        
+        print(f"\nAntwort 1: {result1}")
+        print(f"Antwort 2: {result2}")
+        
+        self.assertTrue(result1)
+        self.assertEqual(result1, result2, "Antworten sollten konsistent sein")
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
