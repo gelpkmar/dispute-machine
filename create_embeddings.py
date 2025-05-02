@@ -1,22 +1,64 @@
-import logging, os, shutil, torch
+import logging
+import os
+import shutil
+import torch
 from langchain.docstore.document import Document
 from langchain.text_splitter import Language, RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import (
     HuggingFaceInstructEmbeddings, HuggingFaceBgeEmbeddings, HuggingFaceEmbeddings
 )
+from langchain_community.document_loaders import (
+    UnstructuredHTMLLoader,
+    TextLoader,
+    UnstructuredMarkdownLoader,
+    UnstructuredFileLoader,
+    CSVLoader,
+    UnstructuredExcelLoader,
+    Docx2txtLoader
+)
+from chromadb.config import Settings  # <-- Add this import
 import nltk
 
 # Download necessary NLTK resources
-nltk.download('punkt')
-nltk.download('tiger')
+nltk.download('punkt', quiet=True)
+try:
+    nltk.download('tiger', quiet=True)
+except:
+    pass  # Not critical for our operations
 
-# Configuration import
-from main import SOURCE_DIRECTORY, PERSIST_DIRECTORY, INGEST_THREADS, CHROMA_SETTINGS, DOCUMENT_MAP, EMBEDDING_MODEL_NAME
+# Configuration constants
+ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+SOURCE_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/portfolio_X"
+SOURCE_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/portfolio_Y"
+PERSIST_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/embeddings_X"
+PERSIST_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/embeddings_Y"
+INGEST_THREADS = os.cpu_count() or 8
+CHROMA_SETTINGS = Settings(
+    anonymized_telemetry=False,
+    is_persistent=True,
+    allow_reset=True,
+)
 
+# Document loaders mapping
+DOCUMENT_MAP = {
+    ".html": UnstructuredHTMLLoader,
+    ".txt": TextLoader,
+    ".md": UnstructuredMarkdownLoader,
+    ".py": TextLoader,
+    ".pdf": UnstructuredFileLoader,
+    ".csv": CSVLoader,
+    ".xls": UnstructuredExcelLoader,
+    ".xlsx": UnstructuredExcelLoader,
+    ".docx": Docx2txtLoader,
+    ".doc": Docx2txtLoader,
+}
+
+# Default embedding model
+EMBEDDING_MODEL_NAME = "sentence-transformers/LaBSE"
 
 def get_embeddings(device_type="cuda"):
+    # Embedding logic based on selected model
     if EMBEDDING_MODEL_NAME == "hkunlp/instructor-large":
         return HuggingFaceInstructEmbeddings(
             model_name=EMBEDDING_MODEL_NAME,
@@ -39,35 +81,27 @@ def get_embeddings(device_type="cuda"):
             encode_kwargs={"normalize_embeddings": True}
         )
 
-
-def file_log(logentry):
-    with open("file_ingest.log", "a") as f:
-        f.write(logentry + "\n")
-    print(logentry)
-
-
 def load_single_document(file_path: str) -> Document:
     try:
         file_extension = os.path.splitext(file_path)[1]
         loader_class = DOCUMENT_MAP.get(file_extension)
         if loader_class:
-            file_log(file_path + " loaded.")
             loader = loader_class(file_path)
+            document = loader.load()[0]
+            # Make sure the content is assigned to the page_content field
+            return Document(page_content=document.page_content, metadata=document.metadata)
         else:
-            file_log(file_path + " document type is undefined.")
-            raise ValueError("Document type is undefined")
-        return loader.load()[0]
+            logging.warning(f"{file_path} document type is undefined.")
+            return None
     except Exception as ex:
-        file_log(f"{file_path} loading error: \n{ex}")
+        logging.error(f"{file_path} loading error: \n{ex}")
         return None
-
 
 def load_document_batch(filepaths):
     from concurrent.futures import ThreadPoolExecutor
     with ThreadPoolExecutor(len(filepaths)) as exe:
         futures = [exe.submit(load_single_document, name) for name in filepaths]
         return ([future.result() for future in futures], filepaths)
-
 
 def load_documents(source_dir: str) -> list[Document]:
     from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -92,9 +126,8 @@ def load_documents(source_dir: str) -> list[Document]:
                 contents, _ = future.result()
                 docs.extend([doc for doc in contents if doc])
             except Exception as ex:
-                file_log(f"Exception: {ex}")
+                logging.error(f"Exception: {ex}")
     return docs
-
 
 def split_documents(documents: list[Document]):
     text_docs, python_docs = [], []
@@ -107,7 +140,6 @@ def split_documents(documents: list[Document]):
                 text_docs.append(doc)
     return text_docs, python_docs
 
-
 def create_embeddings(agent_name, device_type, source_directory, persist_directory):
     source_directory = os.path.abspath(source_directory)
     persist_directory = os.path.abspath(persist_directory)
@@ -119,12 +151,12 @@ def create_embeddings(agent_name, device_type, source_directory, persist_directo
 
     if not os.listdir(source_directory):
         logging.warning(f"Source directory is empty: {source_directory}")
-        return
+        return None
 
     documents = load_documents(source_directory)
     if not documents:
         logging.warning(f"No valid documents found in {source_directory}")
-        return
+        return None
 
     text_docs, python_docs = split_documents(documents)
 
@@ -152,24 +184,31 @@ def create_embeddings(agent_name, device_type, source_directory, persist_directo
     logging.info(f"Embeddings for {agent_name} created at {persist_directory}")
     return db
 
-
 def main():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(base_dir, "data")
-
-    os.makedirs(data_dir, exist_ok=True)  # Ensure base data dir exists
-
-    portfolio_x = os.path.join(data_dir, "portfolio_X")
-    embeddings_x = os.path.join(data_dir, "embeddings_X")
-    portfolio_y = os.path.join(data_dir, "portfolio_Y")
-    embeddings_y = os.path.join(data_dir, "embeddings_Y")
-
-    os.makedirs(portfolio_x, exist_ok=True)
-    os.makedirs(portfolio_y, exist_ok=True)
-
-    create_embeddings("X", "cuda" if torch.cuda.is_available() else "cpu", portfolio_x, embeddings_x)
-    create_embeddings("Y", "cuda" if torch.cuda.is_available() else "cpu", portfolio_y, embeddings_y)
-
+    logging.info("Starting embedding creation for both agents")
+    
+    # Create embeddings for Agent X
+    logging.info("Processing Agent X...")
+    db_x = create_embeddings(
+        "X",
+        "cuda" if torch.cuda.is_available() else "cpu",
+        SOURCE_DIRECTORY_X,
+        PERSIST_DIRECTORY_X
+    )
+    
+    # Create embeddings for Agent Y
+    logging.info("Processing Agent Y...")
+    db_y = create_embeddings(
+        "Y",
+        "cuda" if torch.cuda.is_available() else "cpu",
+        SOURCE_DIRECTORY_Y,
+        PERSIST_DIRECTORY_Y
+    )
+    
+    if db_x and db_y:
+        logging.info("Successfully created embeddings for both agents")
+    else:
+        logging.error("Failed to create embeddings for one or both agents")
 
 if __name__ == "__main__":
     logging.basicConfig(

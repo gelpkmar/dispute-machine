@@ -17,9 +17,6 @@ from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, Un
 from langchain.chains import RetrievalQA
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler  # for streaming response
 from langchain.callbacks.manager import CallbackManager
-# from langchain.embeddings import HuggingFaceBgeEmbeddings, HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
-# from langchain_community.embeddings import HuggingFaceInstructEmbeddings, HuggingFaceEmbeddings
-# from langchain_community.embeddings.huggingface import HuggingFaceBgeEmbeddings
 from langchain_community.embeddings import (
     HuggingFaceEmbeddings,
     HuggingFaceBgeEmbeddings,
@@ -36,7 +33,10 @@ print(f"Current device: {torch.cuda.current_device()}")
 # Configuration
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/data"
-PERSIST_DIRECTORY = f"{ROOT_DIRECTORY}/DB"
+PERSIST_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/persist_X"
+PERSIST_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/persist_Y"
+EMBEDDINGS_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/embeddings_X"
+EMBEDDINGS_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/embeddings_Y"
 MODELS_PATH = "./models"
 INGEST_THREADS = os.cpu_count() or 8
 CONTEXT_WINDOW_SIZE = 8096
@@ -44,7 +44,6 @@ MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE  # int(CONTEXT_WINDOW_SIZE/4)
 N_GPU_LAYERS = 35  # How many LLM layers to offload to GPU
 N_BATCH = 512
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-SCRIPT_PATH = "/Users/thealteredmg/kDrive_altered/Studium_UZH/c_CURRENT/AIL_25/deliverable/dispute-machine/data/legal_script_txt.txt"
 
 # Define the Chroma settings
 CHROMA_SETTINGS = Settings(
@@ -413,10 +412,6 @@ def calculate_similarity(model, response, expected_answer):
 def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemplate_type="llama"):
 
     embeddings = load_embeddings()
-    # if device_type == "hpu":
-    #     embeddings = load_embeddings()
-    # else:
-        # embeddings = get_embeddings(device_type)
 
     # Add verification
     test_embedding = embeddings.embed_query("Test embedding")
@@ -425,6 +420,30 @@ def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemp
 
     # load the vectorstore
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
+
+    # 🔍 Inspect Chroma vectorstore contents
+    print("\n📦 Dokumente in der Chroma-Datenbank:")
+    try:
+        collection = db._collection
+        documents = collection.get(include=['documents'])  # Might raise if _collection is private in your version
+        if documents and "documents" in documents:
+            docs = documents["documents"]
+            print(f"→ Anzahl gespeicherter Dokumente: {len(docs)}")
+            for i, doc in enumerate(docs[:5]):  # Print first 5 only
+                print(f"[{i+1}] {doc[:200]}...\n")
+        else:
+            print("⚠️ Keine Dokumente im Vektorstore gefunden.")
+    except Exception as e:
+        print(f"⚠️ Fehler beim Zugriff auf die Chroma-Dokumente: {e}")
+
+
+    # ✅ TEST: Manually check if retrieval works
+    retriever = db.as_retriever(search_kwargs={"k": 3})
+    query = "Was ist ein Preisnachlass?"
+    results = retriever.get_relevant_documents(query)
+    print(f"Manuelle Suche: {len(results)} Dokumente gefunden")
+    for i, doc in enumerate(results):
+        print(f"[{i+1}] {doc.page_content[:150]}...")
 
     # get the prompt template and memory if set by the user.
     prompt, memory = get_prompt_template(promptTemplate_type=promptTemplate_type, history=use_history)
@@ -467,7 +486,6 @@ class Agent:
         self.persist_dir = persist_dir
         self.promptTemplate_type = promptTemplate_type
         self.agent_state = agent_state
-        # self.opening_statement = opening_statement
         self.qa = retrieval_qa_pipline(device_type, use_history, self.persist_dir, promptTemplate_type=model_type)
 
     def ask(self, query):
@@ -609,21 +627,21 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
 
             agent_X = Agent(
                 name="X", 
-                embeddings_dir="./data/embeddings_X",
+                embeddings_dir=EMBEDDINGS_DIRECTORY_X,  # Use the specific X directory
                 device_type="cuda",
                 use_history=False, 
                 model_type=model_type, 
-                persist_dir="./data/persist_X", 
+                persist_dir=PERSIST_DIRECTORY_X,  # Use the specific X directory
                 promptTemplate_type=model_type, 
                 agent_state=agent_state_x
             )
             agent_Y = Agent(
                 name="Y", 
-                embeddings_dir="./data/embeddings_Y",
+                embeddings_dir=EMBEDDINGS_DIRECTORY_Y,  # Use the specific Y directory
                 device_type="cuda",
                 use_history=False, 
                 model_type=model_type, 
-                persist_dir="./data/persist_Y", 
+                persist_dir=PERSIST_DIRECTORY_Y,  # Use the specific Y directory
                 promptTemplate_type=model_type,
                 agent_state=agent_state_y
             )
@@ -647,7 +665,19 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
                 # Agent X speaks
                 agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds) + current_context)
                 answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
-                logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
+                logging.info(f"Die neuste Aussage von {agent_state_x['name']}: {answer_X}")
+
+                if show_sources:
+                    print(f"\n📚 Quellen für {agent_state_x['name']}:")
+                    for i, doc in enumerate(docs, 1):
+                        print(f"Quelle {i}: {doc.metadata.get('source', 'Unbekannt')}")
+                        print(doc.page_content)
+                        print("---")
+
+                agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds) + current_context)
+                answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
+                if not docs:
+                    print(f"⚠️ Keine Quellen für {agent_state_x['name']} gefunden – die Datenbank hat nichts Relevantes zurückgegeben.")
 
                 if save_qa:
                     log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_X)
@@ -658,7 +688,14 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
                 # Agent Y speaks
                 agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds) + current_context)
                 answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
-                logging.info(f"Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
+                logging.info(f"Die neuste Aussage von {agent_state_y['name']}: {answer_Y}")
+
+                if show_sources:
+                    print(f"\n📚 Quellen für {agent_state_y['name']}:")
+                    for i, doc in enumerate(docs, 1):
+                        print(f"Quelle {i}: {doc.metadata.get('source', 'Unbekannt')}")
+                        print(doc.page_content)
+                        print("---")
 
                 if save_qa:
                     log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_Y)
