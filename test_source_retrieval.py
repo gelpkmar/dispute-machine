@@ -6,13 +6,18 @@ from langchain_community.vectorstores import Chroma  # Updated import
 from main import (
     load_embeddings,
     CHROMA_SETTINGS,
-    PERSIST_DIRECTORY,
+    PERSIST_DIRECTORY_X,
+    PERSIST_DIRECTORY_Y,
     MODEL_ID,
     MODEL_BASENAME,
     load_model,
     get_prompt_template
 )
 from langchain.chains import RetrievalQA
+
+# Choose agent
+AGENT = "X"  # or "Y"
+PERSIST_DIRECTORY = PERSIST_DIRECTORY_X if AGENT == "X" else PERSIST_DIRECTORY_Y
 
 class TestSourceRetrieval(unittest.TestCase):
     @classmethod

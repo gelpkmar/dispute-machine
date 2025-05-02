@@ -13,7 +13,7 @@ nltk.download('punkt')
 nltk.download('tiger')
 
 # Configuration import
-from main import SOURCE_DIRECTORY, PERSIST_DIRECTORY, INGEST_THREADS, CHROMA_SETTINGS, DOCUMENT_MAP, EMBEDDING_MODEL_NAME
+from main import SOURCE_DIRECTORY, EMBEDDINGS_DIRECTORY_X, EMBEDDINGS_DIRECTORY_Y, INGEST_THREADS, CHROMA_SETTINGS, DOCUMENT_MAP, EMBEDDING_MODEL_NAME
 
 
 def get_embeddings(device_type="cuda"):
@@ -44,21 +44,21 @@ def file_log(logentry):
     with open("file_ingest.log", "a") as f:
         f.write(logentry + "\n")
     print(logentry)
-
-
+  
 def load_single_document(file_path: str) -> Document:
     try:
         file_extension = os.path.splitext(file_path)[1]
         loader_class = DOCUMENT_MAP.get(file_extension)
         if loader_class:
-            file_log(file_path + " loaded.")
             loader = loader_class(file_path)
+            document = loader.load()[0]
+            # Make sure the content is assigned to the page_content field
+            return Document(page_content=document.page_content, metadata=document.metadata)
         else:
-            file_log(file_path + " document type is undefined.")
-            raise ValueError("Document type is undefined")
-        return loader.load()[0]
+            logging.warning(f"{file_path} document type is undefined.")
+            return None
     except Exception as ex:
-        file_log(f"{file_path} loading error: \n{ex}")
+        logging.error(f"{file_path} loading error: \n{ex}")
         return None
 
 
@@ -154,21 +154,17 @@ def create_embeddings(agent_name, device_type, source_directory, persist_directo
 
 
 def main():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(base_dir, "data")
 
-    os.makedirs(data_dir, exist_ok=True)  # Ensure base data dir exists
+    os.makedirs(SOURCE_DIRECTORY, exist_ok=True)  # Ensure base data dir exists
 
-    portfolio_x = os.path.join(data_dir, "portfolio_X")
-    embeddings_x = os.path.join(data_dir, "embeddings_X")
-    portfolio_y = os.path.join(data_dir, "portfolio_Y")
-    embeddings_y = os.path.join(data_dir, "embeddings_Y")
+    portfolio_x = os.path.join(SOURCE_DIRECTORY, "portfolio_X")
+    portfolio_y = os.path.join(SOURCE_DIRECTORY, "portfolio_Y")
 
     os.makedirs(portfolio_x, exist_ok=True)
     os.makedirs(portfolio_y, exist_ok=True)
 
-    create_embeddings("X", "cuda" if torch.cuda.is_available() else "cpu", portfolio_x, embeddings_x)
-    create_embeddings("Y", "cuda" if torch.cuda.is_available() else "cpu", portfolio_y, embeddings_y)
+    create_embeddings("X", "cuda" if torch.cuda.is_available() else "cpu", portfolio_x, EMBEDDINGS_DIRECTORY_X)
+    create_embeddings("Y", "cuda" if torch.cuda.is_available() else "cpu", portfolio_y, EMBEDDINGS_DIRECTORY_Y)
 
 
 if __name__ == "__main__":

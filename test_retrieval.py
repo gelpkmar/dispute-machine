@@ -5,7 +5,11 @@ import shutil
 from chromadb.config import Settings
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from main import load_embeddings, DOCUMENT_MAP, CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
+from main import load_embeddings, DOCUMENT_MAP, CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY_X, PERSIST_DIRECTORY_Y
+
+# Choose agent
+AGENT = "X"  # or "Y"
+PERSIST_DIRECTORY = PERSIST_DIRECTORY_X if AGENT == "X" else PERSIST_DIRECTORY_Y
 
 # Define test agent state similar to your main script
 TEST_AGENT_STATE = {

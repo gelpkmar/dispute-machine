@@ -3,7 +3,7 @@
 # git clone --branch crazy git@github.com:gelpkmar/dispute-machine.git
 # history -c && history -w
 
-import os, torch, csv, json, click, logging, gc 
+import os, torch, csv, json, click, logging, gc, copy
 from datetime import datetime
 from chromadb.config import Settings
 from huggingface_hub import hf_hub_download
@@ -26,9 +26,9 @@ from langchain_community.vectorstores import Chroma
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 
-# print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
-# print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
-# print(f"Current device: {torch.cuda.current_device()}")
+print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
+print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
+print(f"Current device: {torch.cuda.current_device()}")
 
 # Configuration
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
@@ -58,6 +58,7 @@ DOCUMENT_MAP = {
     ".txt": TextLoader,
     ".md": UnstructuredMarkdownLoader,
     ".py": TextLoader,
+    # ".pdf": PDFMinerLoader,
     ".pdf": UnstructuredFileLoader,
     ".csv": CSVLoader,
     ".xls": UnstructuredExcelLoader,
@@ -81,7 +82,7 @@ def load_quantized_model_gguf_ggml(model_id, model_basename, device_type, loggin
     Load a GGUF/GGML quantized model using LlamaCpp.
     """
     try:
-        logging.info("⚠️ Using Llamacpp for GGUF/GGML quantized models")
+        logging.info("Using Llamacpp for GGUF/GGML quantized models")
         model_path = hf_hub_download(
             repo_id=model_id,
             filename=model_basename,
@@ -102,7 +103,7 @@ def load_quantized_model_gguf_ggml(model_id, model_basename, device_type, loggin
         return LlamaCpp(**kwargs)
     except TypeError:
         if "ggml" in model_basename:
-            logging.info("⚠️ If you were using GGML model, LLAMA-CPP Dropped Support, Use GGUF Instead")
+            logging.info("If you were using GGML model, LLAMA-CPP Dropped Support, Use GGUF Instead")
         return None
 
 
@@ -111,7 +112,7 @@ def load_full_model(model_id, model_basename, device_type, logging):
     Load a full model using either LlamaTokenizer or AutoModelForCausalLM.
     """
     if device_type.lower() in ["mps", "cpu"]:
-        logging.info("⚠️ Using AutoModelForCausalLM")
+        logging.info("Using AutoModelForCausalLM")
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             torch_dtype=torch.bfloat16,
@@ -120,9 +121,9 @@ def load_full_model(model_id, model_basename, device_type, logging):
         )
         tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir="./models/")
     else:
-        logging.info("⚠️ Using AutoModelForCausalLM for full models")
+        logging.info("Using AutoModelForCausalLM for full models")
         tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir="./models/")
-        logging.info("⚠️ Tokenizer loaded")
+        logging.info("Tokenizer loaded")
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_use_double_quant=True,
@@ -339,13 +340,14 @@ def get_prompt_template(system_prompt=DEFAULT_SYSTEM_PROMPT, promptTemplate_type
             prompt = PromptTemplate(input_variables=["context", "question"], template=prompt_template)
 
     memory = ConversationBufferMemory(input_key="question", memory_key="history")
-    # print(f"📚 Here is the prompt used: {prompt}")  # For debugging, to see the generated prompt
+    print(f"Here is the prompt used: {prompt}")  # For debugging, to see the generated prompt
     return prompt, memory
 
 
 # In the load_model function, modify the quantization checks:
 def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
-    logging.info(f"⚠️ Loading Model: {model_id}, on: {device_type}")
+    logging.info(f"Loading Model: {model_id}, on: {device_type}")
+    logging.info("This action can take a few minutes!")
 
     quant_model_loaded = False
 
@@ -361,14 +363,14 @@ def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
                     return model_result  # Some implementations return a pipeline directly
                 quant_model_loaded = True
             else:
-                LOGGING.warning(f"❌ {model_basename} model loading failed, falling back to full model.")
+                LOGGING.warning(f"{model_basename} model loading failed, falling back to full model.")
 
         elif ".awq" in model_basename_lower:
             LOGGING.warning("AWQ models not supported. Falling back to full model.")
         elif ".gptq" in model_basename_lower:
-            LOGGING.warning("❌ GPTQ models not supported. Falling back to full model.")
+            LOGGING.warning("GPTQ models not supported. Falling back to full model.")
         else:
-            LOGGING.warning("❌ Unknown quantization format. Falling back to full model.")
+            LOGGING.warning("Unknown quantization format. Falling back to full model.")
 
     if not quant_model_loaded:
         model, tokenizer = load_full_model(model_id, model_basename, device_type, LOGGING)
@@ -393,7 +395,7 @@ def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
 def load_embeddings():
     """Load HuggingFace embeddings on the appropriate device with logging."""
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    logging.info(f"⚠️ Loading embeddings on device: {device}")
+    logging.info(f"Loading embeddings on device: {device}")
 
     try:
         embeddings = HuggingFaceEmbeddings(
@@ -401,10 +403,13 @@ def load_embeddings():
             model_kwargs={"device": device},
             encode_kwargs={"normalize_embeddings": True}
         )
+        # Sanity check
+        test_vector = embeddings.embed_query("Embedding test")
+        logging.info(f"Loaded embeddings. Dimension: {len(test_vector)}")
         return embeddings
     except Exception as e:
-        logging.error(f"❌ Failed to load embeddings: {e}")
-        raise RuntimeError("❌ Embedding model failed to initialize.")
+        logging.error(f"Failed to load embeddings: {e}")
+        raise RuntimeError("Embedding model failed to initialize.")
 
 
 def calculate_similarity(model, response, expected_answer):
@@ -415,47 +420,55 @@ def calculate_similarity(model, response, expected_answer):
         similarity_score = torch.nn.functional.cosine_similarity(response_embedding, expected_embedding, dim=0)
         return similarity_score.item()
     except Exception as e:
-        logging.error(f"❌ Error calculating similarity: {e}")
+        logging.error(f"Error calculating similarity: {e}")
         return -1.0  # Return a clearly invalid similarity score
 
 
 def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemplate_type="llama"):
+    """Set up the retrieval QA pipeline with embedded vector store."""
+    try:
+        embeddings = load_embeddings()
 
-    embeddings = load_embeddings()
+        # Verify embeddings
+        test_embedding = embeddings.embed_query("Test embedding")
+        logging.info(f"Embedding dimension: {len(test_embedding)}")
 
-    # load the vectorstore
-    db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
-
-    # get the prompt template and memory if set by the user.
-    prompt, memory = get_prompt_template(promptTemplate_type=promptTemplate_type, history=use_history)
-
-    # load the llm pipeline
-    llm = load_model(device_type, model_id=MODEL_ID, model_basename=MODEL_BASENAME, LOGGING=logging)
-
-    if use_history:
-        qa = RetrievalQA.from_chain_type(
-            llm=llm,
-            chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
-            # retriever=db.as_retriever(),
-            retriever=db.as_retriever(search_kwargs={"k": 3}),
-            return_source_documents=True,  # verbose=True,
-            callbacks=callback_manager,
-            chain_type_kwargs={"prompt": prompt, "memory": memory},
-        )
-    else:
-        qa = RetrievalQA.from_chain_type(
-            llm=llm,
-            chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
-            # retriever=db.as_retriever(),
-            retriever=db.as_retriever(search_kwargs={"k": 3}),
-            return_source_documents=True,  # verbose=True,
-            callbacks=callback_manager,
-            chain_type_kwargs={
-                "prompt": prompt,
-            },
+        db = Chroma(
+            persist_directory=persist_directory,
+            embedding_function=embeddings,
+            client_settings=CHROMA_SETTINGS
         )
 
-    return qa
+        prompt, memory = get_prompt_template(promptTemplate_type=promptTemplate_type, history=use_history)
+
+        llm = load_model(
+            device_type=device_type,
+            model_id=MODEL_ID,
+            model_basename=MODEL_BASENAME,
+            LOGGING=logging
+        )
+
+        retriever = db.as_retriever(search_kwargs={"k": 3})
+        chain_kwargs = {"prompt": prompt}
+        if use_history:
+            chain_kwargs["memory"] = memory
+
+        qa = RetrievalQA.from_chain_type(
+            llm=llm,
+            chain_type="stuff",
+            retriever=retriever,
+            return_source_documents=True,
+            callbacks=callback_manager,
+            chain_type_kwargs=chain_kwargs
+        )
+
+        logging.info("Retrieval QA pipeline successfully initialized.")
+        return qa
+
+    except Exception as e:
+        logging.error(f"Failed to create QA pipeline: {e}")
+        raise
+
 
 
 ### AGENT
@@ -466,12 +479,27 @@ class Agent:
         self.persist_dir = persist_dir
         self.promptTemplate_type = promptTemplate_type
         self.agent_state = agent_state
-        # self.opening_statement = opening_statement
-        self.qa = retrieval_qa_pipline(device_type, use_history, self.persist_dir, promptTemplate_type=model_type)
+
+        try:
+            self.qa = retrieval_qa_pipline(
+                device_type=device_type,
+                use_history=use_history,
+                persist_directory=self.persist_dir,
+                promptTemplate_type=model_type
+            )
+        except Exception as e:
+            logging.error(f"Agent {self.name} failed to initialize QA pipeline: {e}")
+            raise
 
     def ask(self, query):
-        res = self.qa({"query": query})  # Explicit dict format
-        return res
+        try:
+            res = self.qa({"query": query})
+            logging.debug(f"Agent {self.name} retrieved {len(res.get('source_documents', []))} sources")
+            return res
+        except Exception as e:
+            logging.error(f"Agent {self.name} failed to process query: {e}")
+            return {"result": "Fehler bei der Verarbeitung.", "source_documents": []}
+
 
 def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
     if round_number == total_rounds-1:
@@ -546,127 +574,109 @@ agent_state_y = {
 }
 
 
+def create_agent(name, embeddings_dir, device_type, use_history, model_type, persist_dir, promptTemplate_type, agent_state):
+    try:
+        return Agent(
+            name=name,
+            embeddings_dir=embeddings_dir,
+            device_type=device_type,
+            use_history=use_history,
+            model_type=model_type,
+            persist_dir=persist_dir,
+            promptTemplate_type=promptTemplate_type,
+            agent_state=agent_state
+        )
+    except Exception as e:
+        logging.error(f"Failed to create agent {name}: {e}")
+        raise
+
+def run_single_round(agent_speaker, agent_listener, speaker_state, listener_state, round_num, total_rounds, save_qa, simulation_round):
+    context_prompt = prompt(speaker_state, round_num, total_rounds)
+    logging.info(f"{speaker_state['name']} speaking in round {round_num}...")
+    
+    response = agent_speaker.ask(context_prompt)
+    result_text = response.get("result", "")
+    speaker_state['dispute_history'].append([context_prompt, result_text])
+
+    logging.debug(f"{speaker_state['name']} said: {result_text}")
+    
+    if save_qa:
+        log_to_csv(f"Simulation {simulation_round}, Round {round_num} Prompt", result_text)
+    
+    return result_text  # To be passed as context to the other agent
+
+def run_simulation(simulation_round, rounds, device_type, model_type, use_history, save_qa):
+    logging.info(f"\n=== Starting Simulation Round {simulation_round} ===")
+
+    # Reset state per simulation
+    state_x = copy.deepcopy(agent_state_x)
+    state_y = copy.deepcopy(agent_state_y)
+    context = ""
+
+    # Create both agents
+    agent_x = create_agent("X", EMBEDDINGS_DIRECTORY_X, device_type, use_history, model_type, PERSIST_DIRECTORY_X, model_type, state_x)
+    agent_y = create_agent("Y", EMBEDDINGS_DIRECTORY_Y, device_type, use_history, model_type, PERSIST_DIRECTORY_Y, model_type, state_y)
+
+    for round_num in range(1, rounds + 1):
+        logging.info(f"--- Round {round_num} ---")
+
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+        # Agent X speaks
+        response_x = run_single_round(agent_x, agent_y, state_x, state_y, round_num, rounds, save_qa, simulation_round)
+        context = f"\nDie neuste Aussage von {state_x['name']}: {response_x}"
+
+        # Agent Y responds
+        response_y = run_single_round(agent_y, agent_x, state_y, state_x, round_num, rounds, save_qa, simulation_round)
+        context = f"\nDie neuste Aussage von {state_y['name']}: {response_y}"
+
+    # Save result
+    save_dispute_history_to_json(state_x, state_y, simulation_round)
+
+    # Clean up
+    del agent_x
+    del agent_y
+    torch.cuda.empty_cache()
+    gc.collect()
+
 @click.command()
-@click.option(
-    "--show_sources",
-    "-s",
-    is_flag=True,
-    help="Show sources along with answers (Default is False)",
-)
-@click.option(
-    "--use_history",
-    "-h",
-    is_flag=True,
-    help="Use history (Default is False)",
-)
+@click.option("--show_sources", "-s", is_flag=True, help="Show source docs (default: False)")
+@click.option("--use_history", "-h", is_flag=True, help="Use history between rounds")
 @click.option(
     "--model_type",
     default="llama3",
-    type=click.Choice(
-        ["llama3", "llama", "mistral", "non_llama"],
-    ),
-    help="model type, llama3, llama, mistral or non_llama",
+    type=click.Choice(["llama3", "llama", "mistral", "non_llama"]),
+    help="Model type",
 )
-@click.option(
-    "--save_qa",
-    is_flag=True,
-    help="whether to save Q&A pairs to a CSV file (Default is False)",
-)
-@click.option(
-    "--rounds", 
-    "-r", 
-    default=3,  # Default number of rounds
-    type=int,   # Ensure it expects an integer value
-    help="Number of rounds for the discussion"
-)
+@click.option("--save_qa", is_flag=True, help="Save Q&A to CSV (default: False)")
+@click.option("--rounds", "-r", default=3, type=int, help="Number of rounds per simulation")
 @click.option(
     "--device_type",
     default="cuda" if torch.cuda.is_available() else "cpu",
-    type=click.Choice(["cpu", "cuda", "ipu", "xpu", "mkldnn", "opengl", "opencl", "ideep", "hip", "ve", "fpga", "ort", "xla", "lazy", "vulkan", "mps", "meta", "hpu", "mtia"]),
-    help="Device to run on. (Default is cuda)",
+    type=click.Choice(["cpu", "cuda", "mps", "xpu", "ort", "meta"]),
+    help="Execution device",
 )
 @click.option(
-    "--number_of_simulations",
-    "-n", 
-    default=1,  # Default number of rounds
-    type=int,   # Ensure it expects an integer value
-    help="Number of simulations"
+    "--number_of_simulations", "-n",
+    default=1,
+    type=int,
+    help="Number of full dispute simulations to run"
 )
 def main(device_type, show_sources, use_history, model_type, save_qa, rounds, number_of_simulations):
-    for simulation_round in range(1, number_of_simulations + 1):
-        # logging.info(f"Running on: {device_type}")
-        # logging.info(f"Display Source Documents set to: {show_sources}")
-        # logging.info(f"Use history set to: {use_history}")
+    logging.info(f"Running with model_type: {model_type} on device: {device_type}")
+    logging.info(f"Use history: {use_history} | Save Q&A: {save_qa} | Rounds: {rounds} | Simulations: {number_of_simulations}")
 
-        if not os.path.exists(MODELS_PATH):
-            os.mkdir(MODELS_PATH)
+    if not os.path.exists(MODELS_PATH):
+        os.mkdir(MODELS_PATH)
 
-        # ⚡ Use no_grad to disable gradient tracking and save memory
-        with torch.no_grad():
+    with torch.no_grad():
+        for sim_round in range(1, number_of_simulations + 1):
+            run_simulation(sim_round, rounds, device_type, model_type, use_history, save_qa)
 
-            agent_X = Agent(
-                name="X", 
-                embeddings_dir=EMBEDDINGS_DIRECTORY_X,
-                device_type="cuda",
-                use_history=False, 
-                model_type=model_type, 
-                persist_dir=PERSIST_DIRECTORY_X, 
-                promptTemplate_type=model_type, 
-                agent_state=agent_state_x
-            )
-            agent_Y = Agent(
-                name="Y", 
-                embeddings_dir=EMBEDDINGS_DIRECTORY_Y,
-                device_type="cuda",
-                use_history=False, 
-                model_type=model_type, 
-                persist_dir=PERSIST_DIRECTORY_Y, 
-                promptTemplate_type=model_type,
-                agent_state=agent_state_y
-            )
-
-            current_context = ""
-            
-            # Add this test to your main script
-            embeddings = load_embeddings()
-
-            # ✅ Start the simulation rounds
-            for round_num in range(1, rounds + 1): 
-                logging.info(f"🔁 Simulation {simulation_round}, Round {round_num}:")
-
-                if torch.cuda.is_available():
-                    torch.cuda.empty_cache()
-
-                # Agent X speaks
-                agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds) + current_context)
-                answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
-                logging.info(f"📚Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
-
-                if save_qa:
-                    log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context} \n\nDocuments:{docs}', answer_X)
-
-                current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_X}"
-                agent_state_x['dispute_history'].append([current_context, answer_X])
-
-                # Agent Y speaks
-                agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds) + current_context)
-                answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
-                logging.info(f"📚Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
-
-                if save_qa:
-                    log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context} \n\nDocuments:{docs}', answer_Y)
-
-                current_context = f"\nDie neuste Aussage von {agent_state_y['name']}: {answer_Y}"
-                agent_state_y['dispute_history'].append([current_context, answer_Y])
-
-            save_dispute_history_to_json(agent_state_x, agent_state_y, simulation_round)
-
-            #📚 After each simulation round: clean up
-            del agent_X
-            del agent_Y
-            torch.cuda.empty_cache()
-            gc.collect()
 
 if __name__ == "__main__":
-    logging.basicConfig(format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(message)s", level=logging.INFO)
+    logging.basicConfig(
+        format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(message)s", level=logging.INFO
+    )
     main()
