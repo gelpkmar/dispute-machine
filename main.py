@@ -1,79 +1,27 @@
-# python main.py --show_sources --save_qa
-# python main.py --save_qa --rounds 5 --show_sources
+# python main.py -s -qa
+# python main.py -s -qa -r 5 -n 3 
 # git clone --branch crazy git@github.com:gelpkmar/dispute-machine.git
 # history -c && history -w
 
 import os, torch, csv, json, click, logging, gc 
 from datetime import datetime
-from chromadb.config import Settings
 from huggingface_hub import hf_hub_download
 from langchain.llms import LlamaCpp, HuggingFacePipeline
-from transformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM, LlamaTokenizer, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from langchain.vectorstores import Chroma
 from transformers import (GenerationConfig, pipeline,)
-
 # https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/excel.html?highlight=xlsx#microsoft-excel
-from langchain.document_loaders import CSVLoader, TextLoader, UnstructuredExcelLoader, Docx2txtLoader, UnstructuredFileLoader, UnstructuredMarkdownLoader, UnstructuredHTMLLoader
 from langchain.chains import RetrievalQA
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler  # for streaming response
-from langchain.callbacks.manager import CallbackManager
-from langchain_community.embeddings import (
-    HuggingFaceEmbeddings,
-    HuggingFaceBgeEmbeddings,
-    HuggingFaceInstructEmbeddings
-)
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 
+from constants import MODELS_PATH, MODEL_ID, MODEL_BASENAME, PERSIST_DIRECTORY_X, PERSIST_DIRECTORY_Y, CONTEXT_WINDOW_SIZE, CHROMA_SETTINGS, CALLBACK_MANAGER, N_GPU_LAYERS, MAX_NEW_TOKENS, N_BATCH, EMBEDDING_MODEL_NAME
 # print(f"PyTorch CUDA available: {torch.cuda.is_available()}")
 # print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
 # print(f"Current device: {torch.cuda.current_device()}")
 
-# Configuration
-ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/data"
-PERSIST_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/persist_X"
-PERSIST_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/persist_Y"
-EMBEDDINGS_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/embeddings_X"
-EMBEDDINGS_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/embeddings_Y"
-MODELS_PATH = "./models"
-INGEST_THREADS = os.cpu_count() or 8
-CONTEXT_WINDOW_SIZE = 8096
-MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE  # int(CONTEXT_WINDOW_SIZE/4)
-N_GPU_LAYERS = 35  # How many LLM layers to offload to GPU
-N_BATCH = 512
-callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-
-# Define the Chroma settings
-CHROMA_SETTINGS = Settings(
-    anonymized_telemetry=False,
-    is_persistent=True,
-    allow_reset=True,
-    # chroma_db_impl="duckdb+parquet",
-    )
-
-DOCUMENT_MAP = {
-    ".html": UnstructuredHTMLLoader,
-    ".txt": TextLoader,
-    ".md": UnstructuredMarkdownLoader,
-    ".py": TextLoader,
-    ".pdf": UnstructuredFileLoader,
-    ".csv": CSVLoader,
-    ".xls": UnstructuredExcelLoader,
-    ".xlsx": UnstructuredExcelLoader,
-    ".docx": Docx2txtLoader,
-    ".doc": Docx2txtLoader,
-}
-
-# Default Instructor Model
-EMBEDDING_MODEL_NAME = "sentence-transformers/LaBSE"
-
-# https://huggingface.co/TheBloke/DiscoLM_German_7b_v1-GGUF
-MODEL_ID = "TheBloke/DiscoLM_German_7b_v1-GGUF"  # Hugging Face repo
-MODEL_BASENAME = "discolm_german_7b_v1.Q5_K_M.gguf" # large, very low quality loss - recommended
-# MODEL_BASENAME = "discolm_german_7b_v1.Q6_K.gguf" # very large, extremely low quality loss
-# MODEL_BASENAME = "discolm_german_7b_v1.Q8_0.gguf" # very large, extremely low quality loss - not recommended
 
 ### Load Models
 def load_quantized_model_gguf_ggml(model_id, model_basename, device_type, logging):
@@ -152,7 +100,6 @@ def load_quantized_model_awq(model_id, logging):
 
 
 ### Utilities
-
 def log_to_csv(question, answer):
 
     log_dir, log_file = "local_chat_history", "qa_log.csv"
@@ -197,48 +144,12 @@ def save_dispute_history_to_json(agent_x_state, agent_y_state, simulation_round)
 
     print(f"✅ Dispute history saved to {filename}")
 
-
 def get_embeddings(device_type="cuda"):
-    # Handle specific case for DiscoLM (or similar model)
-    if EMBEDDING_MODEL_NAME == "TheBloke/DiscoLM_German_7b_v1-GGUF":
-        # Load the GGUF model, specify model type and device
-        # Using HuggingFaceEmbeddings for standard use
-        model_kwargs = {"device": device_type}
-        encode_kwargs = {"normalize_embeddings": True}
-
-        # If you're working with a specific model handler (e.g., GGUF API), 
-        # you might need to use a more specialized method here.
-        return HuggingFaceEmbeddings(
-            model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs=model_kwargs,
-            encode_kwargs=encode_kwargs
-        )
-    
-    # Fallback cases for other models (Instructor, BGE, etc.)
-    elif EMBEDDING_MODEL_NAME == "hkunlp/instructor-large":
-        model_kwargs = {"device": device_type}
-        encode_kwargs = {"normalize_embeddings": True}
-        return HuggingFaceInstructEmbeddings(
-            model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs=model_kwargs,
-            encode_kwargs=encode_kwargs,
-            query_instruction="Represent the query for retrieval: ",
-            embed_instruction="Represent the document for retrieval: "
-        )
-    elif "bge" in EMBEDDING_MODEL_NAME.lower():
-        return HuggingFaceBgeEmbeddings(
-            model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs={"device": device_type},
-            encode_kwargs={"normalize_embeddings": True},
-            query_instruction="Represent this sentence for searching relevant passages: "
-        )
-    else:
-        # Default fallback for other models
-        return HuggingFaceEmbeddings(
-            model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs={"device": device_type},
-            encode_kwargs={"normalize_embeddings": True}
-        )
+    return HuggingFaceEmbeddings(
+        model_name=EMBEDDING_MODEL_NAME,
+        model_kwargs={"device": device_type},
+        encode_kwargs={"normalize_embeddings": True}
+    )
     
 
 ### LocalGPT
@@ -346,7 +257,6 @@ def get_prompt_template(system_prompt=DEFAULT_SYSTEM_PROMPT, promptTemplate_type
 # In the load_model function, modify the quantization checks:
 def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
     logging.info(f"⚠️ Loading Model: {model_id}, on: {device_type}")
-
     quant_model_loaded = False
 
     if model_basename:
@@ -419,7 +329,7 @@ def calculate_similarity(model, response, expected_answer):
         return -1.0  # Return a clearly invalid similarity score
 
 
-def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemplate_type="llama"):
+def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemplate_type):
 
     embeddings = load_embeddings()
 
@@ -436,20 +346,18 @@ def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemp
         qa = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
-            # retriever=db.as_retriever(),
             retriever=db.as_retriever(search_kwargs={"k": 3}),
             return_source_documents=True,  # verbose=True,
-            callbacks=callback_manager,
+            callbacks=CALLBACK_MANAGER,
             chain_type_kwargs={"prompt": prompt, "memory": memory},
         )
     else:
         qa = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
-            # retriever=db.as_retriever(),
             retriever=db.as_retriever(search_kwargs={"k": 3}),
             return_source_documents=True,  # verbose=True,
-            callbacks=callback_manager,
+            callbacks=CALLBACK_MANAGER,
             chain_type_kwargs={
                 "prompt": prompt,
             },
@@ -460,9 +368,10 @@ def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemp
 
 ### AGENT
 class Agent:
-    def __init__(self, name, embeddings_dir, device_type, use_history, model_type, persist_dir, promptTemplate_type, agent_state):
+    # def __init__(self, name, embeddings_dir, device_type, use_history, model_type, persist_dir, promptTemplate_type, agent_state):
+    def __init__(self, name, device_type, use_history, model_type, persist_dir, promptTemplate_type, agent_state):
         self.name = name  
-        self.embeddings_dir = embeddings_dir  
+        # self.embeddings_dir = embeddings_dir
         self.persist_dir = persist_dir
         self.promptTemplate_type = promptTemplate_type
         self.agent_state = agent_state
@@ -550,6 +459,7 @@ agent_state_y = {
 @click.option(
     "--show_sources",
     "-s",
+    default=False, 
     is_flag=True,
     help="Show sources along with answers (Default is False)",
 )
@@ -569,6 +479,8 @@ agent_state_y = {
 )
 @click.option(
     "--save_qa",
+    "-qa",
+    default=False,  
     is_flag=True,
     help="whether to save Q&A pairs to a CSV file (Default is False)",
 )
@@ -605,30 +517,28 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
         with torch.no_grad():
 
             agent_X = Agent(
-                name="X", 
-                embeddings_dir=EMBEDDINGS_DIRECTORY_X,
-                device_type="cuda",
-                use_history=False, 
-                model_type=model_type, 
-                persist_dir=PERSIST_DIRECTORY_X, 
-                promptTemplate_type=model_type, 
+                name="X",
+                # embeddings_dir=EMBEDDINGS_DIRECTORY_X,
+                persist_dir=PERSIST_DIRECTORY_X,
+                device_type=device_type,
+                use_history=use_history,
+                model_type=model_type,
+                promptTemplate_type=model_type,
                 agent_state=agent_state_x
             )
+
             agent_Y = Agent(
-                name="Y", 
-                embeddings_dir=EMBEDDINGS_DIRECTORY_Y,
-                device_type="cuda",
-                use_history=False, 
-                model_type=model_type, 
-                persist_dir=PERSIST_DIRECTORY_Y, 
+                name="Y",
+                # embeddings_dir=EMBEDDINGS_DIRECTORY_Y,
+                persist_dir=PERSIST_DIRECTORY_Y,
+                device_type=device_type,
+                use_history=use_history,
+                model_type=model_type,
                 promptTemplate_type=model_type,
                 agent_state=agent_state_y
             )
 
-            current_context = ""
-            
-            # Add this test to your main script
-            embeddings = load_embeddings()
+            current_context = ""            
 
             # ✅ Start the simulation rounds
             for round_num in range(1, rounds + 1): 
