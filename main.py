@@ -1,5 +1,5 @@
 # python main.py -s -qa
-# python main.py -s -qa -r 5 -n 3 
+# python main.py -s -qa -r 5 -n 10
 # git clone --branch crazy git@github.com:gelpkmar/dispute-machine.git
 # history -c && history -w
 
