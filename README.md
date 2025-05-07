@@ -5,3 +5,7 @@ Our objective is to showcase the ”dispute machine”, the prototype of a syste
 
 # Features
 This prototype is built upon "LocalGPT" (https://github.com/PromtEngineer/localGPT/blob/main/README.md), a project to converse with your documents without compromising your privacy.
+
+## What was changed in respect to localGPT
+
+

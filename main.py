@@ -416,7 +416,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         - Streitverlauf: {agent_state['dispute_history'][-1]}
 
         Basierend auf den obigen Informationen, sollte deine Antwort die folgenden Punkte behandeln:
-        1. Drücke Frustration über die verspätete Lieferung aus.
+        1. Drücke Frustration über die aktuelle Situation aus.
         2. Betone deine finanziellen Verluste und unterstreiche die Ernsthaftigkeit des Problems.
         3. Fordere einen Kompromiss und/oder eine Vertragsänderung.
         Antworte immer auf die untenstehende Aussage von {agent_state['dispute_partner']} unter Berücksichtigung der oben stehenden Daten (inkl. Streitverlauf).
@@ -424,33 +424,65 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
         """
 
 # Example of updating agent state after each round
+## Case 1.1 (Furniture):
+# agent_state_x = {
+#     'name': 'Bob',
+#     'age': 33,
+#     'gender': 'Männlich',
+#     'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
+#     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu für den Käufer zu minimieren. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
+#     'dispute_context': {
+#         'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest die entstandenen Schäden so klein wie möglich halten.', 
+#         'facts': 'Streit über Servicequalität',
+#         'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%.'
+#     },
+#     'dispute_partner': 'Alice',
+#     'dispute_history': [[]]
+# }
+
+# agent_state_y = {
+#     'name': 'Alice',
+#     'age': 64,
+#     'gender': 'Weiblich',
+#     'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
+#     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
+#     'dispute_context': {
+#         'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest einen Preisnachlass erreichen.',
+#         'facts': 'Streit über Servicequalität',
+#         'preferred_resolution': 'Preisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen.'
+#     },
+#     'dispute_partner': 'Bob',
+#     'dispute_history': [[]]
+# }
+
+## Case 3.4 (Oldtimer):
 agent_state_x = {
-    'name': 'Biagio Badel',
+    'name': 'Bob',
     'age': 33,
     'gender': 'Männlich',
-    'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
-    'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
+    'legal_issue_involved': 'Preisnachlass oder Rückabwicklung Kauf wegen Lieferung eines Oldtimers mit Schäden.',
+    'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, den Schaden durch die eingegangene Reklamation zu minimieren. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
-        'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest die entstandenen Schäden so klein wie möglich halten.', 
+        'context': 'Du bist der Verkäufer von Oldtimern und hast angeblich einen Wagen mit massiven Rostschäden am Rahmen rechts verkauft.', 
         'facts': 'Streit über Servicequalität',
-        'preferred_resolution': 'Akzeptanz des Preisnachlasses von maximal 10%.'
+        'preferred_resolution': 'Kein Preisnachlass oder Rückabwicklung des Kaufs da der verkaufte Wagen probegefahren wurde.'
     },
-    'dispute_partner': 'Hilda Sidler',
+    'dispute_partner': 'Alice',
     'dispute_history': [[]]
 }
 
 agent_state_y = {
-    'name': 'Hilda Sidler',
+    'name': 'Alice',
     'age': 64,
     'gender': 'Weiblich',
-    'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
-    'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
+    'legal_issue_involved': 'Preisnachlass wegen wegen Lieferung eines Oldtimers mit Schäden.',
+    'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung oder eine Rückabwicklung des Kaufs für den fehlerhaften Oldtimer zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
-        'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest einen Preisnachlass erreichen.',
+        'context': 'Du bist der Käufer von einem Oltimer und hast nach Übernahme des Fahrzeugs massive Rostschäden festgestellt. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest einen Preisnachlass oder eine Rückabwicklung des Kaufs erreichen.',
         'facts': 'Streit über Servicequalität',
-        'preferred_resolution': 'Preisnachlass von 25% oder kostenlose Lieferung zusätzlicher Artikel wie Stehlampen.'
+        'preferred_resolution': 'Massiver Preisnachlass oder eine Rückabwicklung des Kaufs.'
     },
-    'dispute_partner': 'Biagio Badel',
+    'dispute_partner': 'Bob',
     'dispute_history': [[]]
 }
 
