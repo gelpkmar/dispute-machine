@@ -30,4 +30,4 @@ The process to start simulating disputes is as follows:
 4. Define the desired numbers of simulations and rounds in the main function.
 5. Run `main.py` to run the simulations.
 
-The used models for the agents are defined in `constants.py` and can be changed. Models are downloaded automatically if not already done so. Authentication requirements for gated models may exist.
+The used models for the agents are defined in `constants.py` and can be changed. Models are downloaded automatically if not already done so. Authentication requirements for gated models may exist. 
