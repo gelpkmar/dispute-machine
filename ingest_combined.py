@@ -1,6 +1,4 @@
-import os
-import logging
-import shutil, torch
+import os, logging, shutil, torch
 from concurrent.futures import ThreadPoolExecutor
 from typing import List
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -152,8 +150,8 @@ def ingest(source_subdir: str, persist_dir: str, device_type: str = "cuda"):
 
 if __name__ == "__main__":
     # Example usage
-    portfolio_x = os.path.join(SOURCE_DIRECTORY, "portfolio_X")
-    portfolio_y = os.path.join(SOURCE_DIRECTORY, "portfolio_Y")
+    portfolio_x = os.path.join(SOURCE_DIRECTORY, "3.4 Oldtimer")
+    portfolio_y = os.path.join(SOURCE_DIRECTORY, "3.4 Oldtimer")
 
     # Create directories if they don't exist
     os.makedirs(portfolio_x, exist_ok=True)

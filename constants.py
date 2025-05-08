@@ -2,19 +2,17 @@ import os
 from langchain.document_loaders import CSVLoader, TextLoader, UnstructuredExcelLoader, Docx2txtLoader, UnstructuredFileLoader, UnstructuredMarkdownLoader, UnstructuredHTMLLoader
 from langchain.callbacks.manager import CallbackManager
 from chromadb.config import Settings
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler  # for streaming response
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 # Configuration
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/data"
+SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/OneDrive/Training_Data/Cases"
 PERSIST_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/persist_X"
 PERSIST_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/persist_Y"
-EMBEDDINGS_DIRECTORY_X = f"{ROOT_DIRECTORY}/data/embeddings_X"
-EMBEDDINGS_DIRECTORY_Y = f"{ROOT_DIRECTORY}/data/embeddings_Y"
 MODELS_PATH = "./models"
 INGEST_THREADS = os.cpu_count() or 8
 CONTEXT_WINDOW_SIZE = 8096
-MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE  # int(CONTEXT_WINDOW_SIZE/4)
+MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE
 N_GPU_LAYERS = 35  # How many LLM layers to offload to GPU
 N_BATCH = 512
 CALLBACK_MANAGER = CallbackManager([StreamingStdOutCallbackHandler()])

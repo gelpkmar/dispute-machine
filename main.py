@@ -1,4 +1,4 @@
-# python main.py -s -qa
+# python main.py -s -qa -h
 # python main.py -s -qa -r 5 -n 10
 # git clone --branch crazy git@github.com:gelpkmar/dispute-machine.git
 # history -c && history -w
@@ -121,28 +121,6 @@ def log_to_csv(question, answer):
         writer = csv.writer(file)
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         writer.writerow([timestamp, question, answer])
-
-def save_dispute_history_to_json(agent_x_state, agent_y_state, simulation_round):
-    data = {
-        "simulation_round": simulation_round,
-        "agent_X": {
-            "name": agent_x_state['name'],
-            "history": agent_x_state['dispute_history'],
-        },
-        "agent_Y": {
-            "name": agent_y_state['name'],
-            "history": agent_y_state['dispute_history'],
-        }
-    }
-
-    # Make sure the output folder exists
-    os.makedirs("saved_histories", exist_ok=True)
-    filename = f"saved_histories/simulation_round_{simulation_round}.json"
-    
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-
-    print(f"✅ Dispute history saved to {filename}")
 
 def get_embeddings(device_type="cuda"):
     return HuggingFaceEmbeddings(
@@ -345,18 +323,18 @@ def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemp
     if use_history:
         qa = RetrievalQA.from_chain_type(
             llm=llm,
-            chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
+            chain_type="stuff",
             retriever=db.as_retriever(search_kwargs={"k": 3}),
-            return_source_documents=True,  # verbose=True,
+            return_source_documents=True,
             callbacks=CALLBACK_MANAGER,
             chain_type_kwargs={"prompt": prompt, "memory": memory},
         )
     else:
         qa = RetrievalQA.from_chain_type(
             llm=llm,
-            chain_type="stuff",  # try other chains types as well. refine, map_reduce, map_rerank
+            chain_type="stuff",
             retriever=db.as_retriever(search_kwargs={"k": 3}),
-            return_source_documents=True,  # verbose=True,
+            return_source_documents=True,
             callbacks=CALLBACK_MANAGER,
             chain_type_kwargs={
                 "prompt": prompt,
@@ -368,18 +346,15 @@ def retrieval_qa_pipline(device_type, use_history, persist_directory, promptTemp
 
 ### AGENT
 class Agent:
-    # def __init__(self, name, embeddings_dir, device_type, use_history, model_type, persist_dir, promptTemplate_type, agent_state):
     def __init__(self, name, device_type, use_history, model_type, persist_dir, promptTemplate_type, agent_state):
         self.name = name  
-        # self.embeddings_dir = embeddings_dir
         self.persist_dir = persist_dir
         self.promptTemplate_type = promptTemplate_type
         self.agent_state = agent_state
-        # self.opening_statement = opening_statement
         self.qa = retrieval_qa_pipline(device_type, use_history, self.persist_dir, promptTemplate_type=model_type)
 
     def ask(self, query):
-        res = self.qa({"query": query})  # Explicit dict format
+        res = self.qa({"query": query})
         return res
 
 def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
@@ -550,7 +525,6 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
 
             agent_X = Agent(
                 name="X",
-                # embeddings_dir=EMBEDDINGS_DIRECTORY_X,
                 persist_dir=PERSIST_DIRECTORY_X,
                 device_type=device_type,
                 use_history=use_history,
@@ -561,7 +535,6 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
 
             agent_Y = Agent(
                 name="Y",
-                # embeddings_dir=EMBEDDINGS_DIRECTORY_Y,
                 persist_dir=PERSIST_DIRECTORY_Y,
                 device_type=device_type,
                 use_history=use_history,
@@ -585,9 +558,11 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
                 logging.info(f"📚Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
 
                 if save_qa:
-                    log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context} \n\nDocuments:{docs}', answer_X)
+                    log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_X)
+                    if show_sources:
+                        log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context} \n\nDocuments:{docs}', answer_X)
 
-                current_context = f"\nDie neuste Aussage von {agent_state_x['name']}: {answer_X}"
+                current_context = f"Die neuste Aussage von {agent_state_x['name']}: {answer_X}"
                 agent_state_x['dispute_history'].append([current_context, answer_X])
 
                 # Agent Y speaks
@@ -596,12 +571,12 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
                 logging.info(f"📚Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
 
                 if save_qa:
-                    log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context} \n\nDocuments:{docs}', answer_Y)
+                    log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_Y)
+                    if show_sources:
+                        log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context} \n\nDocuments:{docs}', answer_Y)
 
-                current_context = f"\nDie neuste Aussage von {agent_state_y['name']}: {answer_Y}"
+                current_context = f"Die neuste Aussage von {agent_state_y['name']}: {answer_Y}"
                 agent_state_y['dispute_history'].append([current_context, answer_Y])
-
-            save_dispute_history_to_json(agent_state_x, agent_state_y, simulation_round)
 
             #📚 After each simulation round: clean up
             del agent_X
