@@ -1,18 +1,17 @@
-# python main.py -s -qa -h
-# python main.py -s -qa -r 5 -n 10
+# python main.py -s -qa -h 
+# python main.py -s -qa -r 5 -n 10 -h
 # git clone --branch crazy git@github.com:gelpkmar/dispute-machine.git
 # history -c && history -w
 
-import os, torch, csv, json, click, logging, gc 
+import os, torch, csv, click, logging, gc 
 from datetime import datetime
 from huggingface_hub import hf_hub_download
-from langchain.llms import LlamaCpp, HuggingFacePipeline
+from langchain_community.llms import LlamaCpp, HuggingFacePipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from langchain.vectorstores import Chroma
 from transformers import (GenerationConfig, pipeline,)
-# https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/excel.html?highlight=xlsx#microsoft-excel
 from langchain.chains import RetrievalQA
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
@@ -22,35 +21,53 @@ from constants import MODELS_PATH, MODEL_ID, MODEL_BASENAME, PERSIST_DIRECTORY_X
 # print(f"PyTorch CUDA device count: {torch.cuda.device_count()}")
 # print(f"Current device: {torch.cuda.current_device()}")
 
-
-### Load Models
 def load_quantized_model_gguf_ggml(model_id, model_basename, device_type, logging):
     """
-    Load a GGUF/GGML quantized model using LlamaCpp.
+    Load a GGUF/GGML quantized model using LlamaCpp with GPU support.
     """
     try:
-        logging.info("⚠️ Using Llamacpp for GGUF/GGML quantized models")
+        logging.info("⚠️ Using LlamaCpp for GGUF/GGML quantized models")
         model_path = hf_hub_download(
             repo_id=model_id,
             filename=model_basename,
-            resume_download=True,
             cache_dir=MODELS_PATH,
         )
+
         kwargs = {
             "model_path": model_path,
             "n_ctx": CONTEXT_WINDOW_SIZE,
             "max_tokens": MAX_NEW_TOKENS,
             "n_batch": N_BATCH,
+            "n_threads": os.cpu_count() or 8,  # use all CPU threads
+            "f16_kv": True,  # Must be True for GPU
+            "verbose": False,
         }
-        if device_type.lower() == "mps":
-            kwargs["n_gpu_layers"] = 1
+
+        # GPU settings
         if device_type.lower() == "cuda":
-            kwargs["n_gpu_layers"] = N_GPU_LAYERS
+            if not torch.cuda.is_available():
+                raise RuntimeError("❌ CUDA is not available. Check NVIDIA drivers.")
+            logging.info("⚡ Using CUDA for inference")
+            kwargs["n_gpu_layers"] = N_GPU_LAYERS  # e.g., 35 for full model on GPU
+            # kwargs.update({
+            #     "n_gpu_layers": -1,  # Offload all layers to GPU
+            #     "main_gpu": 0,       # Use primary GPU
+            # })
+
+        elif device_type.lower() == "mps":
+            logging.info("🍎 Using Apple MPS for inference")
+            kwargs["n_gpu_layers"] = 1  # MPS only supports 1 layer
+
+        else:
+            logging.info("🧠 Using CPU for inference")
+            kwargs["n_gpu_layers"] = 0
 
         return LlamaCpp(**kwargs)
-    except TypeError:
+
+    except TypeError as e:
         if "ggml" in model_basename:
-            logging.info("⚠️ If you were using GGML model, LLAMA-CPP Dropped Support, Use GGUF Instead")
+            logging.info("⚠️ GGML models are deprecated. Use GGUF instead.")
+        logging.error(f"Model loading failed: {e}")
         return None
 
 
@@ -89,14 +106,6 @@ def load_full_model(model_id, model_basename, device_type, logging):
         )
         model.tie_weights()
     return model, tokenizer
-
-
-def load_quantized_model_awq(model_id, logging):
-    """
-    This function is disabled since it requires special dependencies
-    """
-    logging.warning("AWQ quantized models are not supported in this version.")
-    return None, None
 
 
 ### Utilities
@@ -354,7 +363,7 @@ class Agent:
         self.qa = retrieval_qa_pipline(device_type, use_history, self.persist_dir, promptTemplate_type=model_type)
 
     def ask(self, query):
-        res = self.qa({"query": query})
+        res = self.qa.invoke({"query": query})
         return res
 
 def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
@@ -364,7 +373,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
 
         Aktuelle Situation:
         - Deine Rolle: {agent_state['dispute_context']['context']}
-        - Rechtliches Thema: {agent_state['legal_issue_involved']}
+        - Rechtliches Thema: {agent_state['legal_issue']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
         - Streitverlauf: {agent_state['dispute_history'][-1]}
@@ -385,7 +394,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
 
         Aktuelle Situation:
         - Deine Rolle: {agent_state['dispute_context']['context']}
-        - Rechtliches Thema: {agent_state['legal_issue_involved']}
+        - Rechtliches Thema: {agent_state['legal_issue']}
         - Streitkontext: {agent_state['dispute_context']['facts']}
         - Bevorzugte Lösung: {agent_state['dispute_context']['preferred_resolution']}
         - Streitverlauf: {agent_state['dispute_history'][-1]}
@@ -404,7 +413,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
 #     'name': 'Bob',
 #     'age': 33,
 #     'gender': 'Männlich',
-#     'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
+#     'legal_issue': 'Preisnachlass wegen verspäteter Lieferung',
 #     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu für den Käufer zu minimieren. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
 #     'dispute_context': {
 #         'context': 'Du bist der Verkäufer von Möbeln und hast vereinbarte Waren zu spät geliefert. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest die entstandenen Schäden so klein wie möglich halten.', 
@@ -419,7 +428,7 @@ def prompt(agent_state: dict, round_number: int, total_rounds: int) -> str:
 #     'name': 'Alice',
 #     'age': 64,
 #     'gender': 'Weiblich',
-#     'legal_issue_involved': 'Preisnachlass wegen verspäteter Lieferung',
+#     'legal_issue': 'Preisnachlass wegen verspäteter Lieferung',
 #     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung für den Vertragsbruch zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
 #     'dispute_context': {
 #         'context': 'Du bist der Käufer von Möbeln und hast vereinbarte Waren zu spät geliefert bekommen. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest einen Preisnachlass erreichen.',
@@ -435,7 +444,7 @@ agent_state_x = {
     'name': 'Bob',
     'age': 33,
     'gender': 'Männlich',
-    'legal_issue_involved': 'Preisnachlass oder Rückabwicklung Kauf wegen Lieferung eines Oldtimers mit Schäden.',
+    'legal_issue': 'Preisnachlass oder Rückabwicklung Kauf wegen Lieferung eines Oldtimers mit Schäden.',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, den Schaden durch die eingegangene Reklamation zu minimieren. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
         'context': 'Du bist der Verkäufer von Oldtimern und hast angeblich einen Wagen mit massiven Rostschäden am Rahmen rechts verkauft.', 
@@ -450,7 +459,7 @@ agent_state_y = {
     'name': 'Alice',
     'age': 64,
     'gender': 'Weiblich',
-    'legal_issue_involved': 'Preisnachlass wegen wegen Lieferung eines Oldtimers mit Schäden.',
+    'legal_issue': 'Preisnachlass wegen wegen Lieferung eines Oldtimers mit Schäden.',
     'characteristics': 'Deine finanzielle Lage ist stabil, und du hast ein klares Ziel, finanzielle Entschädigung oder eine Rückabwicklung des Kaufs für den fehlerhaften Oldtimer zu erhalten. Deine Art ist emotional und kooperativ, aber aggressiv, wenn du deine Position verteidigst.',
     'dispute_context': {
         'context': 'Du bist der Käufer von einem Oltimer und hast nach Übernahme des Fahrzeugs massive Rostschäden festgestellt. Nun befindest du dich in einem Streit um Wiedergutmachung, der kurz davor ist, vor Gericht zu gehen und möchtest einen Preisnachlass oder eine Rückabwicklung des Kaufs erreichen.',
@@ -468,13 +477,14 @@ agent_state_y = {
     "-s",
     default=False, 
     is_flag=True,
-    help="Show sources along with answers (Default is False)",
+    help="🔧 Show sources along with answers (Default is False)",
 )
 @click.option(
     "--use_history",
     "-h",
+    default=False,
     is_flag=True,
-    help="Use history (Default is False)",
+    help="🔧 Use history (Default is False)",
 )
 @click.option(
     "--model_type",
@@ -482,34 +492,34 @@ agent_state_y = {
     type=click.Choice(
         ["llama3", "llama", "mistral", "non_llama"],
     ),
-    help="model type, llama3, llama, mistral or non_llama",
+    help="🔧 model type, llama3, llama, mistral or non_llama",
 )
 @click.option(
     "--save_qa",
     "-qa",
     default=False,  
     is_flag=True,
-    help="whether to save Q&A pairs to a CSV file (Default is False)",
+    help="🔧 whether to save Q&A pairs to a CSV file (Default is False)",
 )
 @click.option(
     "--rounds", 
     "-r", 
     default=3,  # Default number of rounds
     type=int,   # Ensure it expects an integer value
-    help="Number of rounds for the discussion"
+    help="🔧 Number of rounds for the discussion (Default is 3)"
 )
 @click.option(
     "--device_type",
     default="cuda" if torch.cuda.is_available() else "cpu",
     type=click.Choice(["cpu", "cuda", "ipu", "xpu", "mkldnn", "opengl", "opencl", "ideep", "hip", "ve", "fpga", "ort", "xla", "lazy", "vulkan", "mps", "meta", "hpu", "mtia"]),
-    help="Device to run on. (Default is cuda)",
+    help="🔧 Device to run on. (Default is cuda)",
 )
 @click.option(
     "--number_of_simulations",
     "-n", 
     default=1,  # Default number of rounds
     type=int,   # Ensure it expects an integer value
-    help="Number of simulations"
+    help="🔧 Number of simulations (Default is 1)"
 )
 def main(device_type, show_sources, use_history, model_type, save_qa, rounds, number_of_simulations):
     for simulation_round in range(1, number_of_simulations + 1):
@@ -524,7 +534,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
         with torch.no_grad():
 
             agent_X = Agent(
-                name="X",
+                name="Bob",
                 persist_dir=PERSIST_DIRECTORY_X,
                 device_type=device_type,
                 use_history=use_history,
@@ -534,7 +544,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
             )
 
             agent_Y = Agent(
-                name="Y",
+                name="Alice",
                 persist_dir=PERSIST_DIRECTORY_Y,
                 device_type=device_type,
                 use_history=use_history,
@@ -555,7 +565,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
                 # Agent X speaks
                 agent_X_response = agent_X.ask(prompt(agent_state_x, round_num, rounds) + current_context)
                 answer_X, docs = agent_X_response["result"], agent_X_response["source_documents"]
-                logging.info(f"📚Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
+                logging.info(f"📚 Die neuste Aussage von {agent_state_x['name']}: {agent_X_response}")
 
                 if save_qa:
                     log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_X)
@@ -568,7 +578,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, rounds, nu
                 # Agent Y speaks
                 agent_Y_response = agent_Y.ask(prompt(agent_state_y, round_num, rounds) + current_context)
                 answer_Y, docs = agent_Y_response["result"], agent_Y_response["source_documents"]
-                logging.info(f"📚Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
+                logging.info(f"📚 Die neuste Aussage von {agent_state_y['name']}: {agent_Y_response}")
 
                 if save_qa:
                     log_to_csv(f'Simulation {simulation_round}, Round{round_num}: {current_context}', answer_Y)
